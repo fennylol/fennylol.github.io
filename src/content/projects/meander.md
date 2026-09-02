@@ -10,7 +10,9 @@ source: https://github.com/fennylol/meander
 featured: false
 ---
 
-A walking simulator: a 12–15 minute stroll through a serene park, with
-lakeside vistas and tranquil forest landscapes, and nothing unexpected happens.
+Enjoy a quiet, relaxing walk around the Escalier Wetlands Trail, which
+rewards you with beautiful lakeside vistas and tranquil forest landscapes.
+The park is peaceful this time of year — about a 12–15 minute walk, and
+nothing unexpected happens.
 
 Built with PolytopeParty in about 36 hours for the 2025 GMTK Game Jam.
