@@ -87,11 +87,16 @@ export type Award = {
 
 export const basics = {
   headline: 'Electronic Design Automation Engineer',
+  /** Printed on the PDF instead of the site's name-with-nickname, which ATS
+   *  name parsers can trip over. */
+  legalName: 'Joshua Fenneran',
   location: 'Poughkeepsie, NY',
   summary:
-    'EDA engineer on IBM’s Clocking Optimization team. Comfortable moving ' +
-    'between low-level systems work and building things end-to-end — from a ' +
-    'hand-rolled operating system to game jams to this site.',
+    'Early-career engineer who learns fast and thrives on hard problems, ' +
+    'technical or creative alike. Comfortable working across a variety of ' +
+    'domains, from assembly-level systems programming to performant, ' +
+    'algorithmic work to the front end, including the website you’re on ' +
+    'right now.',
 };
 
 export const skillGroups: SkillGroup[] = [
@@ -180,8 +185,8 @@ export const experience: ExperienceEntry[] = [
     org: 'Cedarville Game Exhibition',
     role: 'Lead Designer',
     location: 'Cedarville, OH',
-    start: 'Fall 2023',
-    end: 'Fall 2023',
+    start: 'Sep 2023',
+    end: 'Dec 2023',
     highlights: [
       'Developed a game using Unity and C# for an indie demo exhibition; ' +
         'gained experience with team ideation, development, and project refinement.',
@@ -192,8 +197,8 @@ export const experience: ExperienceEntry[] = [
     org: 'Fieldstone Software',
     role: 'Junior Web Developer',
     location: 'Waynesboro, VA',
-    start: 'Summer 2020',
-    end: 'Summer 2020',
+    start: 'Jun 2020',
+    end: 'Aug 2020',
     highlights: [
       'Worked in a development team using Laravel PHP to build, debug, and ' +
         'deploy a web-based HVAC inventory tracking, scheduling, estimating, ' +

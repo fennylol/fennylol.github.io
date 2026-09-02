@@ -38,7 +38,13 @@ const stripScheme = (href: string) =>
 <div class:list={['resume', { 'is-builder': builder }]}>
   <header class="resume-head">
     <div class="identity">
-      <h1>{site.title}</h1>
+      {/* Screen gets the name as the site uses it; print/PDF gets the plain
+          legal name, which ATS name parsers handle more reliably than a
+          quoted nickname. */}
+      <h1>
+        <span class="no-print">{site.title}</span>
+        <span class="print-only">{basics.legalName}</span>
+      </h1>
       {
         builder ? (
           <input
@@ -215,7 +221,7 @@ const stripScheme = (href: string) =>
     }
   </ResumeSection>
 
-  <ResumeSection title="Awards & achievements">
+  <ResumeSection title="Education">
     <ul class="awards">
       {
         awards.map((a) => (
