@@ -8,9 +8,10 @@ source: https://github.com/fennylol/multi-player-coupler
 featured: true
 ---
 
-A Godot utility for managing an arbitrary number of peer-to-peer UDP
-connections, built directly on `PacketPeerUDP` rather than Godot's
-high-level multiplayer API. Used in [Tournamancy](/projects/tournamancy).
+A Godot utility for managing an arbitrary number of UDP connections as a
+pure, relay-server-free peer-to-peer mesh. Built directly on
+`PacketPeerUDP` rather than Godot's high-level multiplayer API. Used in
+[Tournamancy](/projects/tournamancy).
 
 ## Connection lifecycle
 
