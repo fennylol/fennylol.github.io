@@ -89,10 +89,9 @@ export const basics = {
   headline: 'Electronic Design Automation Engineer',
   location: 'Poughkeepsie, NY',
   summary:
-    'EDA engineer on IBM’s Clocking Optimization team, building on a B.S. in ' +
-    'Computer Science from Cedarville University (2025, GPA 3.85). Comfortable ' +
-    'moving between low-level systems work and building things end-to-end — ' +
-    'from a hand-rolled operating system to game jams to this site.',
+    'EDA engineer on IBM’s Clocking Optimization team. Comfortable moving ' +
+    'between low-level systems work and building things end-to-end — from a ' +
+    'hand-rolled operating system to game jams to this site.',
 };
 
 export const skillGroups: SkillGroup[] = [
@@ -204,6 +203,13 @@ export const experience: ExperienceEntry[] = [
 ];
 
 export const awards: Award[] = [
+  {
+    id: 'bs-cs',
+    title: 'B.S. Computer Science',
+    issuer: 'Cedarville University',
+    date: 'May 2025',
+    note: 'ABET-accredited · GPA 3.85 (final two years)',
+  },
   {
     id: 'deans-list',
     title: "Dean's List",
