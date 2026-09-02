@@ -5,6 +5,8 @@ import TagList from '../components/TagList.astro';
 
 interface Props {
   title: string;
+  /** Display-only second line under the title. */
+  subtitle?: string;
   summary?: string;
   date: Date;
   updated?: Date;
@@ -13,7 +15,7 @@ interface Props {
   backHref: string;
   backLabel: string;
 }
-const { title, summary, date, updated, tags = [], backHref, backLabel } =
+const { title, subtitle, summary, date, updated, tags = [], backHref, backLabel } =
   Astro.props;
 ---
 
@@ -22,6 +24,7 @@ const { title, summary, date, updated, tags = [], backHref, backLabel } =
     <p><a href={backHref}>&larr; {backLabel}</a></p>
     <header class="stack-s">
       <h1>{title}</h1>
+      {subtitle && <p class="subtitle muted">{subtitle}</p>}
       <p class="muted"><FormattedDate date={date} updated={updated} /></p>
       <TagList tags={tags} />
     </header>
@@ -35,5 +38,9 @@ const { title, summary, date, updated, tags = [], backHref, backLabel } =
   header {
     padding-bottom: var(--space-m);
     border-bottom: var(--border);
+  }
+  .subtitle {
+    font-size: var(--size-step-1);
+    line-height: 1.3;
   }
 </style>

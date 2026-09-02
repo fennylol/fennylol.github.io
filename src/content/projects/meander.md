@@ -1,5 +1,6 @@
 ---
 title: Meander
+subtitle: (the game in which you go for a walk and nothing unexpected happens)
 summary: Enjoy a quiet, relaxing walk around the Escalier Wetlands Trail. Made for the 2025 GMTK Game Jam.
 date: 2025-07-31
 tags: [Game Jam, GDScript, Godot, Open Source, Linux Executable, Windows Executable]

@@ -28,6 +28,7 @@ const hasLinks = Boolean(data.link || data.source || downloads.length);
     <a class="card-link" href={`/projects/${id}`}>{data.title}</a>
     {data.featured && <span class="badge" title="Featured">★</span>}
   </h3>
+  {data.subtitle && <p class="card-subtitle muted">{data.subtitle}</p>}
   <p class="summary">{data.summary}</p>
   <div class="meta muted">
     <FormattedDate date={data.date} />
@@ -141,6 +142,11 @@ const hasLinks = Boolean(data.link || data.source || downloads.length);
     /* Above the overlay so its title tooltip still appears on hover. */
     position: relative;
     z-index: 2;
+  }
+  .card-subtitle {
+    font-size: var(--size-step--1);
+    line-height: 1.35;
+    margin-top: calc(-1 * var(--space-3xs));
   }
   .summary {
     flex: 1;

@@ -10,6 +10,12 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
+    /**
+     * Optional display-only second line, e.g. "(and the Tower He Intends to
+     * Build)". Kept out of `title` on purpose: `title` feeds the page
+     * <title>, OG tags, RSS and the résumé, which all want the short form.
+     */
+    subtitle: z.string().optional(),
     // One- or two-sentence blurb shown on the card and in listings.
     summary: z.string(),
     date: z.coerce.date(),
