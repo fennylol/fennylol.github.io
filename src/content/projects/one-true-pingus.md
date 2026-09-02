@@ -9,9 +9,8 @@ featured: true
 ---
 
 A Godot utility for managing an arbitrary number of peer-to-peer UDP
-connections. No relay server, no dependencies, no Godot high-level
-multiplayer API — raw packets over `PacketPeerUDP`. Used in
-[Tournamancy](/projects/tournamancy).
+connections, built directly on `PacketPeerUDP` rather than Godot's
+high-level multiplayer API. Used in [Tournamancy](/projects/tournamancy).
 
 ## Connection lifecycle
 
