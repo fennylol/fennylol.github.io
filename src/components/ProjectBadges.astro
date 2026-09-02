@@ -30,11 +30,12 @@ const genaiLabel = {
   used: 'Used GenAI',
 } as const;
 
-const hasAny = Boolean(data.link || data.source || downloads.length || data.genai);
 ---
 
 {
-  hasAny && (
+  (
+    /* The GenAI badge is always present (the field is required), so the row
+       always renders. */
     <div class:list={['badges', { raised }]}>
       {data.link && (
         <a class="badge" data-tone="live" href={data.link}>
@@ -73,16 +74,14 @@ const hasAny = Boolean(data.link || data.source || downloads.length || data.gena
         </a>
       )}
 
-      {data.genai && (
-        <span class="badge" data-tone={`ai-${data.genai}`}>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
-            {/* A slash through the sparkle for the "no GenAI" case. */}
-            {data.genai === 'none' && <line x1="4" y1="20" x2="20" y2="4" />}
-          </svg>
-          {genaiLabel[data.genai]}
-        </span>
-      )}
+      <span class="badge" data-tone={`ai-${data.genai}`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
+          {/* A slash through the sparkle for the "no GenAI" case. */}
+          {data.genai === 'none' && <line x1="4" y1="20" x2="20" y2="4" />}
+        </svg>
+        {genaiLabel[data.genai]}
+      </span>
     </div>
   )
 }

@@ -27,12 +27,9 @@ timeout.
 
 ## NAT traversal
 
-Discovers its own external IP:port via STUN, so peers behind separate
-routers connect without port forwarding.
-
-This is the one generative-AI-assisted part of the module: the STUN client
-was generated rather than hand-written. Everything else — the packet
-format, connection state machine, and peer handling — was written by hand.
+Discovers its own external IP:port via STUN, allowing peers behind separate
+routers to connect without port forwarding — written with assistance from
+Claude Opus 4.8.
 
 ## Public API
 
