@@ -1,0 +1,27 @@
+---
+import { site } from '../site.config';
+
+interface Props {
+  date: Date;
+  /** Optional "updated" date, rendered as a suffix. */
+  updated?: Date;
+}
+const { date, updated } = Astro.props;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString(site.locale, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<time datetime={iso(date)}>{fmt(date)}</time>{
+  updated && (
+    <>
+      {' '}
+      <span class="muted">(updated <time datetime={iso(updated)}>{fmt(updated)}</time>)</span>
+    </>
+  )
+}

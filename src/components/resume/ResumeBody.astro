@@ -1,0 +1,480 @@
+---
+import ResumeSection from './ResumeSection.astro';
+import ComfortMeter from './ComfortMeter.astro';
+import {
+  basics,
+  skillGroups,
+  experience,
+  awards,
+  resumeProjects,
+  comfortLevels,
+} from '../../data/resume';
+import { social, site } from '../../site.config';
+import { getProjects } from '../../lib/content';
+
+interface Props {
+  /** Render a checkbox beside every selectable item (the builder page). */
+  builder?: boolean;
+}
+const { builder = false } = Astro.props;
+
+// Resolve résumé project slugs against the real projects collection.
+const allProjects = await getProjects();
+const projects = resumeProjects.flatMap(({ slug, highlights }) => {
+  const entry = allProjects.find((p) => p.id === slug);
+  return entry ? [{ entry, highlights }] : [];
+});
+
+const stripScheme = (href: string) =>
+  href.replace(/^https?:\/\//, '').replace(/^mailto:/, '');
+---
+
+{/*
+  Every selectable item carries data-rid (its stable id) and data-kind.
+  - The builder reads those to build a selection.
+  - The viewer removes any [data-rid] not in the decoded selection.
+  Keep the two in sync by never emitting one without the other.
+*/}
+<div class:list={['resume', { 'is-builder': builder }]}>
+  <header class="resume-head">
+    <div class="identity">
+      <h1>{site.title}</h1>
+      {
+        builder ? (
+          <input
+            type="text"
+            id="headline-input"
+            class="headline-field"
+            value={basics.headline}
+            maxlength="120"
+            aria-label="Job title / headline"
+          />
+        ) : (
+          <p class="headline" id="headline">
+            {basics.headline}
+          </p>
+        )
+      }
+    </div>
+    <div class="contact muted">
+      {basics.location && <div>{basics.location}</div>}
+      {
+        social.map((s) => (
+          <div>
+            <a href={s.href}>
+              <span class="no-print">{s.label}</span>
+              <span class="print-only">{stripScheme(s.href)}</span>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </header>
+
+  {
+    builder ? (
+      <textarea
+        id="summary-input"
+        class="summary-field"
+        rows="3"
+        maxlength="600"
+        aria-label="Summary blurb"
+        set:text={basics.summary}
+      />
+    ) : (
+      <p class="summary" id="summary">
+        {basics.summary}
+      </p>
+    )
+  }
+
+  <ResumeSection title="Skills">
+    <div class="skill-groups">
+      {
+        skillGroups.map((group) => (
+          <div class="skill-group">
+            <h3>{group.category}</h3>
+            {/* Screen: the dot meters. */}
+            <ul class="no-print">
+              {group.skills.map((skill) => (
+                <li class="skill selectable" data-rid={skill.id} data-kind="skill">
+                  {builder && (
+                    <input
+                      type="checkbox"
+                      class="pick"
+                      checked
+                      aria-label={`Include ${skill.name}`}
+                    />
+                  )}
+                  <span class="skill-name">
+                    {skill.name}
+                    {skill.note && (
+                      <span class="muted skill-note"> &mdash; {skill.note}</span>
+                    )}
+                  </span>
+                  <ComfortMeter comfort={skill.comfort} />
+                </li>
+              ))}
+            </ul>
+            {/* Print / PDF: one plain-text line per category. Real text, real
+                commas, reading order preserved — the ATS-friendly format.
+                data-label lets the viewer rebuild the commas after filtering. */}
+            <p class="print-only skills-line">
+              {group.skills.map((skill, i) => {
+                const text = `${skill.name} (${comfortLevels[skill.comfort].label})`;
+                return (
+                  <span
+                    class="skills-line-item"
+                    data-rid={skill.id}
+                    data-kind="skill"
+                    data-label={text}
+                  >
+                    {i > 0 ? ', ' : ''}
+                    {text}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </ResumeSection>
+
+  <ResumeSection title="Experience">
+    {
+      experience.map((job) => {
+        const meta = [job.location, `${job.start} – ${job.end}`]
+          .filter(Boolean)
+          .join(' · ');
+        return (
+          <article
+            class="entry selectable"
+            data-rid={job.id}
+            data-kind="experience"
+          >
+            {builder && (
+              <input
+                type="checkbox"
+                class="pick"
+                checked
+                aria-label={`Include ${job.role} at ${job.org}`}
+              />
+            )}
+            <div class="entry-head">
+              <h3>
+                {job.role}, {job.org}
+              </h3>
+              <span class="muted entry-meta">{meta}</span>
+            </div>
+            {job.summary && <p>{job.summary}</p>}
+            <ul class="highlights">
+              {job.highlights.map((h) => (
+                <li>{h}</li>
+              ))}
+            </ul>
+          </article>
+        );
+      })
+    }
+  </ResumeSection>
+
+  <ResumeSection title="Projects">
+    {
+      projects.map(({ entry, highlights }) => (
+        <article class="entry selectable" data-rid={entry.id} data-kind="project">
+          {builder && (
+            <input
+              type="checkbox"
+              class="pick"
+              checked
+              aria-label={`Include ${entry.data.title}`}
+            />
+          )}
+          <div class="entry-head">
+            <h3>
+              <a href={`/projects/${entry.id}`}>{entry.data.title}</a>
+            </h3>
+            {(entry.data.link || entry.data.source) && (
+              <span class="muted links no-print">
+                {entry.data.link && <a href={entry.data.link}>live</a>}
+                {entry.data.source && <a href={entry.data.source}>source</a>}
+              </span>
+            )}
+          </div>
+          <p>{entry.data.summary}</p>
+          {highlights && highlights.length > 0 && (
+            <ul class="highlights">
+              {highlights.map((h) => (
+                <li>{h}</li>
+              ))}
+            </ul>
+          )}
+        </article>
+      ))
+    }
+  </ResumeSection>
+
+  <ResumeSection title="Awards & certificates">
+    <ul class="awards">
+      {
+        awards.map((a) => (
+          <li class="entry selectable" data-rid={a.id} data-kind="award">
+            {builder && (
+              <input
+                type="checkbox"
+                class="pick"
+                checked
+                aria-label={`Include ${a.title}`}
+              />
+            )}
+            <span class="award-title">
+              {a.url ? <a href={a.url}>{a.title}</a> : a.title}
+            </span>
+            {a.issuer && <span class="muted"> &middot; {a.issuer}</span>}
+            <span class="muted"> &middot; {a.date}</span>
+            {a.note && <p class="muted">{a.note}</p>}
+          </li>
+        ))
+      }
+    </ul>
+  </ResumeSection>
+</div>
+
+<script>
+  /*
+   * Fit-to-one-page for printing. Before the print dialog opens we measure the
+   * rendered résumé and, if it spills past one page, shrink --resume-scale,
+   * which every vertical measurement is multiplied by. We scale font-size and
+   * spacing rather than using a transform, so the text stays real, selectable
+   * text and ATS parsing still works.
+   *
+   * Only ever shrinks, never below 0.75. A genuinely 2+ page résumé still
+   * overflows — that's a signal to cut content, not a bug.
+   */
+  const resume = document.querySelector<HTMLElement>('.resume');
+  const ONE_PAGE_PX = 950; // ~US Letter minus 0.5in margins, at 96dpi
+  const MIN_SCALE = 0.75;
+
+  function fitToPage() {
+    if (!resume) return;
+    let scale = 1;
+    resume.style.setProperty('--resume-scale', '1');
+    for (let i = 0; i < 5; i++) {
+      const height = resume.scrollHeight; // reading this flushes layout
+      if (height <= ONE_PAGE_PX || scale <= MIN_SCALE) break;
+      scale = Math.max(MIN_SCALE, scale * (ONE_PAGE_PX / height) * 0.98);
+      resume.style.setProperty('--resume-scale', scale.toFixed(3));
+    }
+  }
+
+  function reset() {
+    resume?.style.setProperty('--resume-scale', '1');
+  }
+
+  window.addEventListener('beforeprint', fitToPage);
+  window.addEventListener('afterprint', reset);
+</script>
+
+<style>
+  /*
+   * --resume-scale: 1 normally; the script above lowers it just before
+   * printing. --s multiplies every vertical measurement so the whole
+   * document scales proportionally while text stays real text.
+   */
+  .resume {
+    --s: var(--resume-scale, 1);
+    max-width: 48rem;
+    margin-inline: auto;
+    font-size: calc(1rem * var(--s));
+    line-height: 1.5;
+  }
+
+  /* ---- Header: identity left, contact right ---- */
+  .resume-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-2xs) var(--space-m);
+  }
+  .resume-head h1 {
+    font-size: 2em;
+  }
+  .headline {
+    font-size: 1.15em;
+    color: var(--color-muted);
+  }
+  .contact {
+    text-align: right;
+    font-size: 0.85em;
+  }
+  .contact div + div {
+    margin-top: 2px;
+  }
+  @media (max-width: 34rem) {
+    .contact {
+      text-align: left;
+    }
+  }
+
+  .summary {
+    margin-top: calc(var(--space-m) * var(--s));
+    max-width: var(--measure);
+    /* Honour newlines typed into the builder's textarea. */
+    white-space: pre-line;
+  }
+
+  /* ---- Builder: editable headline + summary ---- */
+  .headline-field,
+  .summary-field {
+    display: block;
+    width: 100%;
+    font-family: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--color-border);
+    border-radius: 0;
+    padding: 2px 0;
+  }
+  .headline-field {
+    font-size: 1.15em;
+    color: var(--color-muted);
+  }
+  .summary-field {
+    margin-top: calc(var(--space-m) * var(--s));
+    max-width: var(--measure);
+    font-size: 1em;
+    line-height: inherit;
+    resize: none;
+    overflow: hidden; /* the builder script grows it to fit */
+  }
+  .headline-field:focus,
+  .summary-field:focus {
+    outline: none;
+    border-bottom-color: var(--color-accent);
+    background: var(--color-surface);
+  }
+  .is-builder .identity {
+    flex: 1 1 16rem;
+    max-width: 30rem;
+  }
+
+  /* ---- Skills ---- */
+  .skill-groups {
+    display: grid;
+    gap: calc(var(--space-m) * var(--s));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+  .skill-group h3 {
+    font-size: 1em;
+    margin-bottom: calc(var(--space-2xs) * var(--s));
+  }
+  .skill-group ul {
+    list-style: none;
+    padding: 0;
+  }
+  .skill {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-s);
+    padding-block: calc(var(--space-3xs) * var(--s));
+  }
+  .skill-name {
+    flex: 1;
+  }
+
+  /* ---- Entries (experience / projects / awards) ---- */
+  .entry + .entry {
+    margin-top: calc(var(--space-m) * var(--s));
+  }
+  .entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3xs) var(--space-s);
+  }
+  .entry-head h3 {
+    font-size: 1em;
+    font-weight: 650;
+  }
+  .entry-meta,
+  .links {
+    font-size: 0.85em;
+    white-space: nowrap;
+  }
+  .highlights {
+    margin-top: calc(var(--space-2xs) * var(--s));
+    padding-left: 1.1rem;
+  }
+  .highlights li + li {
+    margin-top: calc(var(--space-3xs) * var(--s));
+  }
+  .links {
+    display: inline-flex;
+    gap: var(--space-s);
+  }
+  .awards {
+    list-style: none;
+    padding: 0;
+  }
+
+  /* ---- Builder mode: checkboxes in a left gutter ----
+     Absolutely positioned so the résumé layout stays pixel-identical to the
+     display page — the checkboxes hang off the side rather than reflowing it. */
+  .is-builder {
+    padding-left: 1.9em;
+  }
+  .is-builder .selectable {
+    position: relative;
+  }
+  .is-builder .pick {
+    position: absolute;
+    left: -1.6em;
+    top: 0.35em;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--color-accent);
+  }
+  .is-builder .selectable:has(.pick:not(:checked)) {
+    opacity: 0.45;
+  }
+
+  /* ---- Print: strip to a clean, dense document ---- */
+  @media print {
+    .resume {
+      max-width: none;
+      font-size: calc(11pt * var(--s));
+    }
+    .resume-head {
+      border-bottom: 1px solid #000;
+      padding-bottom: calc(var(--space-s) * var(--s));
+    }
+    /* Pack skills into one line per category. */
+    .skill-groups {
+      display: block;
+    }
+    .skill-group + .skill-group {
+      margin-top: calc(var(--space-3xs) * var(--s));
+    }
+    .skill-group h3 {
+      display: inline;
+      font-size: inherit;
+      margin: 0;
+    }
+    .skill-group h3::after {
+      content: ": ";
+    }
+    .skills-line {
+      display: inline;
+      margin: 0;
+    }
+    .entry,
+    .highlights {
+      break-inside: avoid;
+    }
+  }
+</style>

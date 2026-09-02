@@ -1,0 +1,105 @@
+---
+// A light/dark toggle. No props. The button starts inert; the script block
+// below wires it up in the browser. This is the first client-side JS on the site.
+---
+
+<button id="theme-toggle" type="button" aria-label="Switch colour theme">
+  <svg class="icon sun" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path
+      d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1l2.1-2.1M17 7l2.1-2.1"
+    ></path>
+  </svg>
+  <svg class="icon moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+  </svg>
+</button>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+  const mq = matchMedia('(prefers-color-scheme: dark)');
+
+  const stored = () => {
+    try {
+      return localStorage.getItem('theme'); // 'light' | 'dark' | null
+    } catch {
+      return null;
+    }
+  };
+
+  // What theme is actually showing right now.
+  const effective = () =>
+    root.dataset.theme ?? (mq.matches ? 'dark' : 'light');
+
+  // Keep the <html data-theme> and the button's a11y state in sync.
+  const paint = () => {
+    const theme = effective();
+    root.dataset.theme = theme;
+    btn?.setAttribute('aria-pressed', String(theme === 'dark'));
+    btn?.setAttribute(
+      'aria-label',
+      theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme',
+    );
+  };
+
+  paint();
+
+  btn?.addEventListener('click', () => {
+    const next = effective() === 'dark' ? 'light' : 'dark';
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* private mode, etc. — the toggle still works for this pageview */
+    }
+    root.dataset.theme = next;
+    paint();
+  });
+
+  // If the visitor never picked a theme, follow the OS when it changes.
+  mq.addEventListener('change', () => {
+    if (!stored()) {
+      root.removeAttribute('data-theme');
+      paint();
+    }
+  });
+</script>
+
+<style>
+  #theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-muted);
+    cursor: pointer;
+  }
+  #theme-toggle:hover {
+    color: var(--color-text);
+    border-color: var(--color-link);
+  }
+  .icon {
+    grid-area: 1 / 1;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  /* Show the icon for the theme currently in effect. */
+  .moon {
+    display: none;
+  }
+  :root[data-theme="dark"] .sun {
+    display: none;
+  }
+  :root[data-theme="dark"] .moon {
+    display: block;
+  }
+</style>

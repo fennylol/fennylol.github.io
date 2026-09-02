@@ -1,0 +1,154 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+const { project } = Astro.props;
+const { data, id } = project;
+
+// One download → link straight at the file. Several → send them to the
+// project page, where they're all listed with labels.
+const { downloads } = data;
+const downloadHref =
+  downloads.length === 1 ? downloads[0].href : `/projects/${id}#downloads`;
+// The `download` attribute only forces a save for same-origin files; on a
+// cross-origin URL browsers ignore it and let the server's headers decide.
+const forcesDownload =
+  downloads.length === 1 && downloads[0].href.startsWith('/');
+
+const hasLinks = Boolean(data.link || data.source || downloads.length);
+---
+
+<article class="card">
+  <h3 class="card-title">
+    {/* The whole card is clickable via this link's stretched ::after. */}
+    <a class="card-link" href={`/projects/${id}`}>{data.title}</a>
+    {data.featured && <span class="badge" title="Featured">★</span>}
+  </h3>
+  <p class="summary">{data.summary}</p>
+  <div class="meta muted">
+    <FormattedDate date={data.date} />
+    <span class="status">{data.status}</span>
+    <TagList tags={data.tags} />
+  </div>
+  <!-- {
+    hasLinks && (
+      <div class="links">
+        {data.link && <a href={data.link}>Live ↗</a>}
+        {data.repo && <a href={data.repo}>Source ↗</a>}
+        {downloads.length > 0 && (
+          <a href={downloadHref} download={forcesDownload ? true : undefined}>
+            {downloads.length > 1 ? 'Downloads' : 'Download'} ↓
+          </a>
+        )}
+      </div>
+    )
+  } -->
+</article>
+
+<style>
+  .card {
+    position: relative;
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-m);
+    background: var(--color-surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    height: 100%;
+    transition:
+      border-color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  /*
+   * "Stretched link": the title's <a> grows an invisible overlay covering the
+   * whole card, so clicking anywhere follows it. Keeps the markup to ONE real
+   * link — no nested anchors, screen readers still announce the title as the
+   * destination, and middle-click / open-in-new-tab work normally.
+   * Trade-off: the overlay makes card text non-selectable.
+   */
+  .card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    /* Required. .card is a flex container, and flex items paint atomically
+       like inline-blocks — without a z-index this overlay would be painted
+       as part of .card-title and end up UNDERNEATH .summary/.meta/.links,
+       which would then swallow the clicks. */
+    z-index: 1;
+  }
+
+  .card:hover,
+  .card:focus-within {
+    border-color: var(--color-link);
+    transform: translateY(-2px);
+  }
+  .card:hover .card-title a,
+  .card:focus-within .card-title a {
+    color: var(--color-link);
+  }
+
+  .card-title {
+    font-size: var(--size-step-1);
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+  }
+  .card-title a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .card-title a:hover {
+    text-decoration: underline;
+  }
+  .badge {
+    color: var(--color-accent);
+    font-size: 0.8em;
+    /* Above the overlay so its title tooltip still appears on hover. */
+    position: relative;
+    z-index: 2;
+  }
+  .summary {
+    flex: 1;
+  }
+  .meta {
+    font-size: var(--size-step--1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
+  }
+  .status {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.85em;
+    color: var(--color-accent);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    font-size: var(--size-step--1);
+    margin-top: var(--space-2xs);
+  }
+  /* Must sit above the stretched overlay or they'd be unclickable. */
+  .links a {
+    position: relative;
+    z-index: 2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      transition: border-color 0.15s ease;
+    }
+    .card:hover,
+    .card:focus-within {
+      transform: none;
+    }
+  }
+</style>

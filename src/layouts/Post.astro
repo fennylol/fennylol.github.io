@@ -1,0 +1,39 @@
+---
+import Base from './Base.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import TagList from '../components/TagList.astro';
+
+interface Props {
+  title: string;
+  summary?: string;
+  date: Date;
+  updated?: Date;
+  tags?: string[];
+  /** Back-link target, e.g. "/blog" or "/projects". */
+  backHref: string;
+  backLabel: string;
+}
+const { title, summary, date, updated, tags = [], backHref, backLabel } =
+  Astro.props;
+---
+
+<Base title={title} description={summary} type="article">
+  <article class="stack">
+    <p><a href={backHref}>&larr; {backLabel}</a></p>
+    <header class="stack-s">
+      <h1>{title}</h1>
+      <p class="muted"><FormattedDate date={date} updated={updated} /></p>
+      <TagList tags={tags} />
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  header {
+    padding-bottom: var(--space-m);
+    border-bottom: var(--border);
+  }
+</style>

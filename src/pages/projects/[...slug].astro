@@ -1,0 +1,88 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Post from '../../layouts/Post.astro';
+import { getProjects } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+---
+
+<Post
+  title={data.title}
+  summary={data.summary}
+  date={data.date}
+  updated={data.updated}
+  tags={data.tags}
+  backHref="/projects"
+  backLabel="All projects"
+>
+  {
+    (data.link || data.source) && (
+      <p class="project-links">
+        {data.link && <a href={data.link}>Live site ↗</a>}
+        {data.source && <a href={data.source}>Source ↗</a>}
+      </p>
+    )
+  }
+
+  {
+    data.downloads.length > 0 && (
+      <section id="downloads" class="downloads">
+        <h2>Downloads</h2>
+        <ul>
+          {data.downloads.map((d) => (
+            <li>
+              <a
+                href={d.href}
+                download={d.href.startsWith('/') ? true : undefined}
+              >
+                {d.label} ↓
+              </a>
+              {d.note && <span class="muted"> — {d.note}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <Content />
+</Post>
+
+<style>
+  .project-links {
+    display: flex;
+    gap: var(--space-m);
+    padding: var(--space-s) 0;
+    margin-bottom: var(--space-m);
+    border-bottom: var(--border);
+  }
+  .downloads {
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    padding: var(--space-s) var(--space-m);
+    margin-bottom: var(--space-l);
+  }
+  .downloads h2 {
+    font-size: var(--size-step-0);
+    margin-bottom: var(--space-2xs);
+  }
+  .downloads ul {
+    list-style: none;
+    padding: 0;
+  }
+  .downloads li + li {
+    margin-top: var(--space-3xs);
+  }
+</style>

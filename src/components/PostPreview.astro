@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+const { post } = Astro.props;
+const { data, id } = post;
+---
+
+<article class="post-preview">
+  <h3><a href={`/blog/${id}`}>{data.title}</a></h3>
+  <p class="muted date"><FormattedDate date={data.date} /></p>
+  <p>{data.summary}</p>
+</article>
+
+<style>
+  .post-preview h3 {
+    font-size: var(--size-step-1);
+  }
+  .post-preview h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .post-preview h3 a:hover {
+    color: var(--color-link);
+    text-decoration: underline;
+  }
+  .date {
+    font-size: var(--size-step--1);
+    margin-top: var(--space-3xs);
+  }
+  .post-preview p:last-child {
+    margin-top: var(--space-2xs);
+  }
+</style>

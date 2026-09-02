@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { linkSections } from '../data/links';
+---
+
+<Base
+  title="Links"
+  description="A blogroll — friends' sites, tools, and things worth pointing at."
+>
+  <header class="stack-s page-head">
+    <h1>Links</h1>
+    <p class="muted">
+      A blogroll in the old spirit: friends' sites, tools I lean on, and
+      things worth your attention.
+    </p>
+  </header>
+
+  <div class="stack">
+    {
+      linkSections.map((section) => (
+        <section class="link-section">
+          <h2>{section.heading}</h2>
+          {section.intro && <p class="muted">{section.intro}</p>}
+          <ul>
+            {section.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.title}</a>
+                {link.note && <span class="muted"> — {link.note}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-l);
+  }
+  .link-section + .link-section {
+    margin-top: var(--space-xl);
+  }
+  .link-section h2 {
+    padding-bottom: var(--space-3xs);
+    border-bottom: var(--border);
+  }
+  .link-section ul {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-s);
+  }
+  .link-section li + li {
+    margin-top: var(--space-2xs);
+  }
+</style>

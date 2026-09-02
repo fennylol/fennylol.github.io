@@ -1,0 +1,82 @@
+---
+import { nav, site } from '../site.config';
+import ThemeToggle from './ThemeToggle.astro';
+
+// Highlight the current section (match on the first path segment).
+const here = '/' + (Astro.url.pathname.split('/').filter(Boolean)[0] ?? '');
+const isCurrent = (href: string) =>
+  href === '/' ? Astro.url.pathname === '/' : href === here;
+---
+
+<header class="site-header">
+  <div class="wrap wrap--wide bar">
+    <a href="/" class="brand">{site.title}</a>
+    <div class="bar-end">
+      <nav aria-label="Primary">
+        <ul>
+          {
+            nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: var(--border);
+    background: var(--color-bg);
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-m);
+    padding-block: var(--space-s);
+  }
+  .bar-end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-m);
+  }
+  .brand {
+    font-weight: 700;
+    font-size: var(--size-step-1);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+  nav a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  nav a:hover {
+    color: var(--color-link);
+  }
+  nav a[aria-current='page'] {
+    color: var(--color-text);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>

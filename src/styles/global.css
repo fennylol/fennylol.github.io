@@ -1,0 +1,231 @@
+@import "./tokens.css";
+
+/* ---- Reset (small, targeted) ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+body {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--text-body);
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* ---- Base elements ---- */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--text-heading);
+  line-height: var(--leading-tight);
+  font-weight: 650;
+  text-wrap: balance;
+}
+h1 {
+  font-size: var(--size-step-4);
+}
+h2 {
+  font-size: var(--size-step-2);
+}
+h3 {
+  font-size: var(--size-step-1);
+}
+
+a {
+  color: var(--color-link);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+a:hover {
+  color: var(--color-link-hover);
+}
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+:not(pre) > code {
+  background: var(--color-code-bg);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+pre {
+  background: var(--color-code-bg);
+  padding: var(--space-s);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  border: var(--border);
+}
+
+hr {
+  border: none;
+  border-top: var(--border);
+  margin-block: var(--space-l);
+}
+
+ul,
+ol {
+  padding-left: 1.4em;
+}
+
+blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: var(--space-s);
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ---- Layout primitives ---- */
+.wrap {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-s);
+}
+.wrap--wide {
+  max-width: var(--wide-width);
+}
+.stack > * + * {
+  margin-top: var(--space-m);
+}
+.stack-s > * + * {
+  margin-top: var(--space-s);
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+/* Shown only when printing (see the @media print block below). */
+.print-only {
+  display: none;
+}
+.eyebrow {
+  font-size: var(--size-step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Skip link for keyboard users */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-text);
+  color: var(--color-bg);
+  padding: var(--space-2xs) var(--space-s);
+  z-index: 100;
+}
+.skip-link:focus {
+  left: var(--space-s);
+  top: var(--space-s);
+}
+
+/* ---- Prose: styling for rendered Markdown ---- */
+.prose {
+  max-width: var(--measure);
+}
+.prose > * + * {
+  margin-top: var(--space-m);
+}
+.prose h2,
+.prose h3 {
+  margin-top: var(--space-xl);
+}
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: var(--space-s);
+}
+.prose img {
+  border-radius: var(--radius);
+  border: var(--border);
+}
+.prose li + li {
+  margin-top: var(--space-3xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  body {
+    transition: none;
+  }
+}
+
+/* ---- Print ---- */
+@media print {
+  @page {
+    margin: 0.5in;
+  }
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: revert; /* restore the element's natural display (block/inline) */
+  }
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+    transition: none;
+  }
+  main {
+    max-width: none;
+    padding: 0;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+  h1,
+  h2,
+  h3 {
+    color: #000;
+  }
+}

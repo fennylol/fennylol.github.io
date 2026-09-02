@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="That page doesn't exist.">
+  <section class="stack-s notfound">
+    <p class="eyebrow">404</p>
+    <h1>This page wandered off.</h1>
+    <p class="muted">
+      Nothing lives at that address. Try the
+      <a href="/">home page</a> or the <a href="/projects">projects</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .notfound {
+    padding-block: var(--space-2xl);
+  }
+</style>

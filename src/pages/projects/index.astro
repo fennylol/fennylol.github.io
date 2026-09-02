@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import TagList from '../../components/TagList.astro';
+import { getProjects } from '../../lib/content';
+
+const projects = await getProjects();
+// Featured first, then by date (getProjects already sorted by date).
+projects.sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+
+const tags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
+---
+
+<Base title="Projects" description="Things I've built." wide>
+  <header class="stack-s page-head">
+    <h1>Projects</h1>
+    <p class="muted">Things I've built, in rough reverse-chronological order.</p>
+    <TagList tags={tags} label="Tags:" />
+  </header>
+
+  {
+    projects.length === 0 ? (
+      <p class="muted">Nothing here yet. Check back soon.</p>
+    ) : (
+      <div class="grid">
+        {projects.map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    )
+  }
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-l);
+  }
+  .grid {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+</style>

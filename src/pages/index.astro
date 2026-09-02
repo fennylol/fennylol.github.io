@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostPreview from '../components/PostPreview.astro';
+import { getProjects, getPosts } from '../lib/content';
+import { site } from '../site.config';
+
+const projects = await getProjects();
+const featured = projects.filter((p) => p.data.featured).slice(0, 3);
+const showcase = featured.length ? featured : projects.slice(0, 3);
+const posts = (await getPosts()).slice(0, 3);
+---
+
+<Base wide>
+  <section class="hero stack-s">
+    <h1 class="eyebrow">{site.title}</h1>
+    <h1>{site.tagline}</h1>
+    <p class="muted intro">
+      (The "Joshua" is silent)
+    </p>
+  </section>
+
+  {
+    showcase.length > 0 && (
+      <Section
+        title="Selected projects"
+        moreHref="/projects"
+        moreLabel="All projects"
+        id="featured"
+      >
+        <div class="grid">
+          {showcase.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      </Section>
+    )
+  }
+
+  {
+    posts.length > 0 && (
+      <Section title="From the blog" moreHref="/blog" moreLabel="All posts">
+        <div class="stack">
+          {posts.map((post) => (
+            <PostPreview post={post} />
+          ))}
+        </div>
+      </Section>
+    )
+  }
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-xl) var(--space-l);
+  }
+  .hero h1 {
+    font-size: var(--size-step-3);
+    max-width: 20ch;
+  }
+  .intro {
+    max-width: 55ch;
+  }
+  .grid {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+import Tag from './Tag.astro';
+
+interface Props {
+  tags: string[];
+  /** Optional lead-in text, e.g. "Tags:" */
+  label?: string;
+}
+const { tags, label } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <span class="tag-list">
+      {label && <span>{label}</span>}
+      {tags.map((tag) => (
+        <Tag name={tag} />
+      ))}
+    </span>
+  )
+}
+
+<style>
+  .tag-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    font-size: var(--size-step--1);
+    color: var(--color-muted);
+  }
+</style>

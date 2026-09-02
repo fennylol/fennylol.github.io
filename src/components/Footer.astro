@@ -1,0 +1,43 @@
+---
+import { social, site } from '../site.config';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap wrap--wide inner">
+    <p class="muted">© {year} {site.author}</p>
+    <ul>
+      {
+        social.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))
+      }
+      <li><a href="/rss.xml">RSS</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: var(--border);
+    margin-top: var(--space-2xl);
+    padding-block: var(--space-l);
+    font-size: var(--size-step--1);
+  }
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+  ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    padding: 0;
+    margin: 0;
+  }
+</style>

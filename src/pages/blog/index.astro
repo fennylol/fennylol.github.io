@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostPreview from '../../components/PostPreview.astro';
+import { getPosts } from '../../lib/content';
+
+const posts = await getPosts();
+---
+
+<Base title="Blog" description="Notes and writing.">
+  <header class="stack-s page-head">
+    <h1>Blog</h1>
+    <p class="muted">
+      Notes, write-ups, and thinking out loud.
+      <a href="/rss.xml">Subscribe via RSS</a>.
+    </p>
+  </header>
+
+  {
+    posts.length === 0 ? (
+      <p class="muted">No posts yet.</p>
+    ) : (
+      <div class="stack">
+        {posts.map((post) => (
+          <PostPreview post={post} />
+        ))}
+      </div>
+    )
+  }
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-l);
+  }
+</style>

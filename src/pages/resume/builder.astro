@@ -1,0 +1,180 @@
+---
+import Base from '../../layouts/Base.astro';
+import ResumeBody from '../../components/resume/ResumeBody.astro';
+---
+
+<Base
+  title="Résumé builder"
+  description="Pick the entries for a tailored résumé and get a shareable link."
+>
+  <div class="builder-bar no-print">
+    <div class="bar-text">
+      <h1>Résumé builder</h1>
+      <p class="muted">
+        Untick anything you don't want, then hit <strong>View résumé</strong>.
+        You'll get a link that recreates exactly this selection — copy it
+        anywhere.
+      </p>
+    </div>
+    <div class="bar-controls">
+      <button type="button" id="view-resume" class="primary">
+        View résumé
+      </button>
+      <button type="button" id="select-all">Select all</button>
+      <button type="button" id="clear-all">Clear</button>
+      <span class="muted count" id="count" aria-live="polite"></span>
+    </div>
+  </div>
+
+  <ResumeBody builder />
+</Base>
+
+<script>
+  import {
+    addToSelection,
+    decodeSelection,
+    emptySelection,
+    encodeSelection,
+    selectedIds,
+    type SelectionKind,
+  } from '../../lib/resume-selection';
+
+  const picks = Array.from(
+    document.querySelectorAll<HTMLInputElement>('.pick'),
+  );
+  const countEl = document.getElementById('count');
+  const headlineInput = document.getElementById(
+    'headline-input',
+  ) as HTMLInputElement | null;
+  const summaryInput = document.getElementById(
+    'summary-input',
+  ) as HTMLTextAreaElement | null;
+
+  /** Grow the textarea to fit its content instead of scrolling. */
+  function autoGrow() {
+    if (!summaryInput) return;
+    summaryInput.style.height = 'auto';
+    summaryInput.style.height = `${summaryInput.scrollHeight}px`;
+  }
+
+  /** The element carrying data-rid / data-kind for a given checkbox. */
+  const hostOf = (pick: HTMLInputElement) =>
+    pick.closest<HTMLElement>('[data-rid]');
+
+  function updateCount() {
+    const n = picks.filter((p) => p.checked).length;
+    if (countEl) countEl.textContent = `${n} of ${picks.length} selected`;
+  }
+
+  /** Read the checkboxes into a Selection. */
+  function collect() {
+    const selection = emptySelection();
+    for (const pick of picks) {
+      if (!pick.checked) continue;
+      const host = hostOf(pick);
+      const id = host?.dataset.rid;
+      const kind = host?.dataset.kind as SelectionKind | undefined;
+      if (id && kind) addToSelection(selection, kind, id);
+    }
+
+    // Only carry the text fields in the URL when they differ from what the
+    // page shipped with — defaultValue is the server-rendered original, so
+    // an untouched builder produces a short link.
+    const headline = headlineInput?.value.trim() ?? '';
+    if (headlineInput && headline !== headlineInput.defaultValue.trim()) {
+      selection.h = headline;
+    }
+    const summary = summaryInput?.value.trim() ?? '';
+    if (summaryInput && summary !== summaryInput.defaultValue.trim()) {
+      selection.b = summary;
+    }
+
+    return selection;
+  }
+
+  // Arriving with ?r=... (e.g. "edit this selection") pre-ticks the boxes.
+  const incoming = decodeSelection(
+    new URLSearchParams(location.search).get('r'),
+  );
+  if (incoming) {
+    const keep = selectedIds(incoming);
+    for (const pick of picks) {
+      const id = hostOf(pick)?.dataset.rid;
+      pick.checked = id ? keep.has(id) : false;
+    }
+    if (headlineInput && typeof incoming.h === 'string') {
+      headlineInput.value = incoming.h;
+    }
+    if (summaryInput && typeof incoming.b === 'string') {
+      summaryInput.value = incoming.b;
+    }
+  }
+
+  updateCount();
+  autoGrow();
+  summaryInput?.addEventListener('input', autoGrow);
+  for (const pick of picks) pick.addEventListener('change', updateCount);
+
+  document.getElementById('select-all')?.addEventListener('click', () => {
+    for (const pick of picks) pick.checked = true;
+    updateCount();
+  });
+
+  document.getElementById('clear-all')?.addEventListener('click', () => {
+    for (const pick of picks) pick.checked = false;
+    updateCount();
+  });
+
+  document.getElementById('view-resume')?.addEventListener('click', () => {
+    location.href = `/resume/view?r=${encodeSelection(collect())}`;
+  });
+</script>
+
+<style>
+  .builder-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-l);
+    border-bottom: var(--border);
+    margin-bottom: var(--space-l);
+  }
+  .bar-text h1 {
+    font-size: var(--size-step-2);
+  }
+  .bar-text p {
+    max-width: 46ch;
+    margin-top: var(--space-2xs);
+    font-size: var(--size-step--1);
+  }
+  .bar-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs) var(--space-s);
+  }
+  button {
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    cursor: pointer;
+  }
+  button:hover {
+    border-color: var(--color-link);
+  }
+  button.primary {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: 600;
+  }
+  button.primary:hover {
+    opacity: 0.9;
+  }
+  .count {
+    font-size: var(--size-step--1);
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import Base from '../../layouts/Base.astro';
+import ResumeBody from '../../components/resume/ResumeBody.astro';
+import { site } from '../../site.config';
+---
+
+{/*
+  This page is built once with EVERY résumé item present in the HTML. The
+  script below reads ?r=<blob> and removes whatever wasn't selected. That
+  keeps the served page real, pre-rendered HTML (good for print and for text
+  extraction) — and with JavaScript off you get the complete résumé rather
+  than a blank page.
+*/}
+<Base title="Résumé" description={`Résumé of ${site.title}.`} wide>
+  <div class="actions no-print">
+    <button type="button" onclick="window.print()">Save as PDF</button>
+    <a id="edit-link" href="/resume/builder">Edit selection &rarr;</a>
+    <a href="/resume">Full résumé &rarr;</a>
+    <button type="button" id="copy-link">Copy link</button>
+    <span class="muted" id="copy-status" aria-live="polite"></span>
+  </div>
+
+  <ResumeBody />
+</Base>
+
+<script>
+  import { decodeSelection, selectedIds } from '../../lib/resume-selection';
+
+  const raw = new URLSearchParams(location.search).get('r');
+  const selection = decodeSelection(raw);
+
+  // Carry the same blob back to the builder so "Edit selection" pre-ticks.
+  const editLink = document.getElementById('edit-link') as HTMLAnchorElement | null;
+  if (editLink && raw) editLink.href = `/resume/builder?r=${raw}`;
+
+  // No blob, or a blob we can't read → leave the full résumé on screen.
+  if (selection) {
+    const keep = selectedIds(selection);
+
+    // 0. Apply the headline / summary overrides. An empty string means the
+    //    builder cleared the field, so drop the element entirely.
+    const applyText = (id: string, value: string | undefined) => {
+      if (typeof value !== 'string') return; // absent → keep the default
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (value) el.textContent = value;
+      else el.remove();
+    };
+    applyText('headline', selection.h);
+    applyText('summary', selection.b);
+
+    // 1. Drop every item that wasn't selected.
+    for (const el of document.querySelectorAll<HTMLElement>('[data-rid]')) {
+      if (!keep.has(el.dataset.rid ?? '')) el.remove();
+    }
+
+    // 2. Rebuild the comma separators on the plain-text skills lines, so the
+    //    PDF reads "C++ (Advanced), Git (Proficient)" with no stray commas.
+    for (const line of document.querySelectorAll('.skills-line')) {
+      const items = line.querySelectorAll<HTMLElement>('.skills-line-item');
+      items.forEach((item, i) => {
+        item.textContent = (i > 0 ? ', ' : '') + (item.dataset.label ?? '');
+      });
+    }
+
+    // 3. Remove skill groups and whole sections that lost all their content.
+    for (const group of document.querySelectorAll('.skill-group')) {
+      if (!group.querySelector('[data-rid]')) group.remove();
+    }
+    for (const section of document.querySelectorAll('.resume-section')) {
+      if (!section.querySelector('[data-rid]')) section.remove();
+    }
+  }
+
+  // Copy the current URL — the whole point of the encoded link.
+  const status = document.getElementById('copy-status');
+  document.getElementById('copy-link')?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      if (status) status.textContent = 'Copied.';
+    } catch {
+      if (status) status.textContent = 'Copy failed — select the URL bar.';
+    }
+    setTimeout(() => status && (status.textContent = ''), 2500);
+  });
+</script>
+
+<style>
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-m);
+    padding-block: var(--space-l);
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+  .actions button {
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    cursor: pointer;
+  }
+  .actions button:hover {
+    border-color: var(--color-link);
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+// A single tag chip. Trivial on its own, but making it a component means
+// there's exactly one place to change how a tag looks — and a natural spot
+// to later turn tags into links to filter pages.
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+<span class="tag">#{name}</span>
+
+<style>
+  .tag {
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+import { comfortLevels, comfortDotCount, type Comfort } from '../../data/resume';
+
+interface Props {
+  comfort: Comfort;
+}
+const { comfort } = Astro.props;
+const { rank, label, blurb } = comfortLevels[comfort];
+
+// [1..comfortDotCount] — one entry per dot.
+const dots = Array.from({ length: comfortDotCount }, (_, i) => i + 1);
+---
+
+<span
+  class="comfort"
+  title={blurb}
+  aria-label={`${label} (${rank} of ${comfortDotCount})`}
+>
+  <span class="label">{label}</span>
+  {/* Word first, then dots. On screen the fixed-width label makes every dot
+      cluster line up. In print the dots are hidden and only the word remains,
+      so ATS parsers and paper both get plain text. */}
+  <span class="dots" aria-hidden="true">
+    {dots.map((n) => <span class:list={['dot', { on: n <= rank }]} />)}
+  </span>
+</span>
+
+<style>
+  .comfort {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    white-space: nowrap;
+  }
+  .label {
+    min-width: 7.5em;
+    text-align: right;
+    font-size: var(--size-step--1);
+    color: var(--color-muted);
+  }
+  .dots {
+    display: inline-flex;
+    gap: 3px;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1px solid var(--color-muted);
+  }
+  .dot.on {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  /* No print rules needed: on /resume this meter lives inside a .no-print
+     list, and the PDF uses a separate plain-text skills line. */
+</style>

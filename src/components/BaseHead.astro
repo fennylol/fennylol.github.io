@@ -1,0 +1,43 @@
+---
+import { site } from '../site.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Open Graph type; 'website' for pages, 'article' for posts. */
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = site.description,
+  type = 'website',
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${site.title}` : site.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content={type} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta name="twitter:card" content="summary" />
+
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${site.title} — Blog`}
+  href={new URL('rss.xml', Astro.site)}
+/>
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
