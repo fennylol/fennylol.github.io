@@ -241,7 +241,7 @@ export const resumeProjects: { slug: string; highlights?: string[] }[] = [
         'programming concepts.',
     ],
   },
-  { slug: 'the-grand-wizard-perilacks' },
+  { slug: 'the-great-wizard-perilacks' },
   { slug: 'tournamancy' },
   { slug: 'one-true-pingus' },
   { slug: 'date-night' },
