@@ -1,6 +1,6 @@
 ---
 title: One True Pingus
-summary: A custom module to fascilitate multi-player syncronization in Godot 4.x
+summary: A custom module to facilitate multiplayer synchronization in Godot 4.x
 date: 2025-04-25
 tags: [Personal Project, Networking, GDScript, Godot, Open Source]
 status: completed :3
@@ -8,27 +8,26 @@ source: https://github.com/fennylol/multi-player-coupler
 featured: true
 ---
 
-A lightweight, dependency-free Godot utility for managing an arbitrary
-number of peer-to-peer UDP connections — no relay server, no Godot
-high-level multiplayer API, just raw packets over `PacketPeerUDP`. Now used
-in [Tournamancy](/projects/tournamancy).
+A Godot utility for managing an arbitrary number of peer-to-peer UDP
+connections. No relay server, no dependencies, no Godot high-level
+multiplayer API — raw packets over `PacketPeerUDP`. Used in
+[Tournamancy](/projects/tournamancy).
 
 ## Connection lifecycle
 
 Each peer moves through three states:
 
 - **NOT_STARTED** — not yet contacted.
-- **INFORMING** — actively announcing itself and waiting to hear back.
-- **CONNECTED** — handshake complete; data can flow both ways.
+- **INFORMING** — announcing itself, awaiting a response.
+- **CONNECTED** — handshake complete; data flows both ways.
 
-Connected peers are kept alive with periodic keepalive packets and dropped
-if they go quiet past a timeout.
+Connected peers are held open with periodic keepalives and dropped on
+timeout.
 
 ## NAT traversal
 
-The module automatically discovers its own external IP:port combination via
-STUN, so two peers behind separate routers can find each other without any
-port forwarding.
+Discovers its own external IP:port via STUN, so peers behind separate
+routers connect without port forwarding.
 
 ## Public API
 
