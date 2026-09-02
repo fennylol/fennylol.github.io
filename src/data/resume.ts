@@ -86,7 +86,7 @@ export type Award = {
 // ---- Content ------------------------------------------------------------
 
 export const basics = {
-  headline: 'Electronic Design Automation Engineer',
+  headline: 'Software Engineer',
   /** Printed on the PDF instead of the site's name-with-nickname, which ATS
    *  name parsers can trip over. */
   legalName: 'Joshua Fenneran',
@@ -169,16 +169,19 @@ export const experience: ExperienceEntry[] = [
     tags: ['EDA', 'clock optimization'],
   },
   {
-    id: 'gmtk-2024',
-    org: 'GMTK Game Jam 2024',
-    role: 'Co-Lead Designer',
+    id: 'game-jams',
+    org: 'Game Jams',
+    role: 'Designer / Developer',
     location: 'Virtual',
     start: 'Aug 2024',
-    end: 'Aug 2024',
+    end: 'Aug 2026',
     highlights: [
-      'Co-developed a playable game with a partner and maintained reasonable ' +
-        'project scope to deliver within a 96-hour time constraint.',
+      'Four jams over three years — GMTK 2024, 2025, and 2026, plus ' +
+        'BigMode 2026 — each finishing with a playable, shipped game.',
+      'Co-lead designer on team entries; kept scope realistic enough to ' +
+        'deliver a complete game within the jam deadline (96 hours for GMTK).',
     ],
+    tags: ['Godot', 'GDScript', 'game design'],
   },
   {
     id: 'game-exhibition-2023',
@@ -242,5 +245,7 @@ export const resumeProjects: { slug: string; highlights?: string[] }[] = [
   { slug: 'tournamancy' },
   { slug: 'one-true-pingus' },
   { slug: 'date-night' },
+  { slug: 'meander' },
+  { slug: 'the-juice-factory' },
   { slug: 'fennylol-portfolio' },
 ];
