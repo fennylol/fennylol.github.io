@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
 import Post from '../../layouts/Post.astro';
+import ProjectBadges from '../../components/ProjectBadges.astro';
 import { getProjects } from '../../lib/content';
 
 export const getStaticPaths = (async () => {
@@ -27,14 +28,9 @@ const { Content } = await render(project);
   backHref="/projects"
   backLabel="All projects"
 >
-  {
-    (data.link || data.source) && (
-      <p class="project-links">
-        {data.link && <a href={data.link}>Live site ↗</a>}
-        {data.source && <a href={data.source}>Source ↗</a>}
-      </p>
-    )
-  }
+  <div class="project-links">
+    <ProjectBadges project={project} />
+  </div>
 
   {
     data.downloads.length > 0 && (
@@ -62,8 +58,6 @@ const { Content } = await render(project);
 
 <style>
   .project-links {
-    display: flex;
-    gap: var(--space-m);
     padding: var(--space-s) 0;
     margin-bottom: var(--space-m);
     border-bottom: var(--border);

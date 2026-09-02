@@ -114,6 +114,16 @@
   --color-accent: var(--latte-mauve);
   --color-code-bg: var(--latte-mantle);
 
+  /* Badge hues. Cool tones for the link badges, traffic-light tones for the
+     GenAI disclosure. Badges tint these for their background/border and use
+     them for the icon; the label stays --color-text so it's always legible. */
+  --color-badge-live: var(--latte-sky);
+  --color-badge-source: var(--latte-mauve);
+  --color-badge-download: var(--latte-teal);
+  --color-badge-ai-none: var(--latte-green);
+  --color-badge-ai-some: var(--latte-yellow);
+  --color-badge-ai-used: var(--latte-peach);
+
   color-scheme: light;
 }
 
@@ -130,6 +140,13 @@
   --color-link-hover: var(--mocha-lavender);
   --color-accent: var(--mocha-mauve);
   --color-code-bg: var(--mocha-mantle);
+
+  --color-badge-live: var(--mocha-sky);
+  --color-badge-source: var(--mocha-mauve);
+  --color-badge-download: var(--mocha-teal);
+  --color-badge-ai-none: var(--mocha-green);
+  --color-badge-ai-some: var(--mocha-yellow);
+  --color-badge-ai-used: var(--mocha-peach);
 
   color-scheme: dark;
 }
@@ -151,6 +168,13 @@
     --color-link-hover: var(--mocha-lavender);
     --color-accent: var(--mocha-mauve);
     --color-code-bg: var(--mocha-mantle);
+
+    --color-badge-live: var(--mocha-sky);
+    --color-badge-source: var(--mocha-mauve);
+    --color-badge-download: var(--mocha-teal);
+    --color-badge-ai-none: var(--mocha-green);
+    --color-badge-ai-some: var(--mocha-yellow);
+    --color-badge-ai-used: var(--mocha-peach);
 
     color-scheme: dark;
   }

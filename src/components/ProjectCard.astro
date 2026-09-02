@@ -2,24 +2,13 @@
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 import TagList from './TagList.astro';
+import ProjectBadges from './ProjectBadges.astro';
 
 interface Props {
   project: CollectionEntry<'projects'>;
 }
 const { project } = Astro.props;
 const { data, id } = project;
-
-// One download → link straight at the file. Several → send them to the
-// project page, where they're all listed with labels.
-const { downloads } = data;
-const downloadHref =
-  downloads.length === 1 ? downloads[0].href : `/projects/${id}#downloads`;
-// The `download` attribute only forces a save for same-origin files; on a
-// cross-origin URL browsers ignore it and let the server's headers decide.
-const forcesDownload =
-  downloads.length === 1 && downloads[0].href.startsWith('/');
-
-const hasLinks = Boolean(data.link || data.source || downloads.length);
 ---
 
 <article class="card" data-tags={JSON.stringify(data.tags)}>
@@ -35,43 +24,7 @@ const hasLinks = Boolean(data.link || data.source || downloads.length);
     <span class="status">{data.status}</span>
     <TagList tags={data.tags} />
   </div>
-  {
-    hasLinks && (
-      <div class="links">
-        {data.link && (
-          <a href={data.link} aria-label="Live site" title="Live site">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-          </a>
-        )}
-        {data.source && (
-          <a href={data.source} aria-label="Source code" title="Source code">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
-            </svg>
-          </a>
-        )}
-        {downloads.length > 0 && (
-          <a
-            href={downloadHref}
-            download={forcesDownload ? true : undefined}
-            aria-label={downloads.length > 1 ? 'Downloads' : 'Download'}
-            title={downloads.length > 1 ? 'Downloads' : 'Download'}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-          </a>
-        )}
-      </div>
-    )
-  }
+  <ProjectBadges project={project} raised />
 </article>
 
 <style>
@@ -170,32 +123,6 @@ const hasLinks = Boolean(data.link || data.source || downloads.length);
     font-size: 0.85em;
     color: var(--color-accent);
   }
-  .links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-s);
-    margin-top: var(--space-2xs);
-  }
-  /* Must sit above the stretched overlay or they'd be unclickable. */
-  .links a {
-    position: relative;
-    z-index: 2;
-    display: inline-flex;
-    color: var(--color-muted);
-  }
-  .links a:hover {
-    color: var(--color-link);
-  }
-  .links svg {
-    width: 1.15rem;
-    height: 1.15rem;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .card {
       transition: border-color 0.15s ease;

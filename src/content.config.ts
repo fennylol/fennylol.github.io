@@ -25,6 +25,12 @@ const projects = defineCollection({
     // TypeScript union of exactly these strings, automatically — so changing
     // this list will flag any code still checking for an old value.
     status: z.enum(['in development :]', 'completed :3', 'live :O', 'abandoned :[']).default('in development :]'),
+    /**
+     * Generative-AI disclosure, shown as a labelled badge (not a tag).
+     * Deliberately has no default: absence means "no claim made" rather
+     * than silently asserting a project is AI-free.
+     */
+    genai: z.enum(['none', 'some', 'used']).optional(),
     // Optional outbound links shown on the project.
     source: z.string().url().optional(), // source code
     // Live demo / site. Usually an absolute URL, but a root-relative path

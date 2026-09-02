@@ -1,0 +1,144 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+/**
+ * The row of labelled badges shown for a project: its links (live, source,
+ * downloads) plus the GenAI disclosure. Shared by the project cards and the
+ * project detail pages so the two can't drift apart.
+ */
+interface Props {
+  project: CollectionEntry<'projects'>;
+  /** Cards sit inside a stretched-link overlay and need a higher stack order. */
+  raised?: boolean;
+}
+const { project, raised = false } = Astro.props;
+const { data, id } = project;
+const { downloads } = data;
+
+// One download → link straight at the file. Several → send them to the
+// project page, where they're all listed with labels.
+const downloadHref =
+  downloads.length === 1 ? downloads[0].href : `/projects/${id}#downloads`;
+// The `download` attribute only forces a save for same-origin files; on a
+// cross-origin URL browsers ignore it and let the server's headers decide.
+const forcesDownload =
+  downloads.length === 1 && downloads[0].href.startsWith('/');
+
+const genaiLabel = {
+  none: 'No GenAI',
+  some: 'Some GenAI',
+  used: 'Used GenAI',
+} as const;
+
+const hasAny = Boolean(data.link || data.source || downloads.length || data.genai);
+---
+
+{
+  hasAny && (
+    <div class:list={['badges', { raised }]}>
+      {data.link && (
+        <a class="badge" data-tone="live" href={data.link}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+          Live site
+        </a>
+      )}
+
+      {data.source && (
+        <a class="badge" data-tone="source" href={data.source}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Open source
+        </a>
+      )}
+
+      {downloads.length > 0 && (
+        <a
+          class="badge"
+          data-tone="download"
+          href={downloadHref}
+          download={forcesDownload ? true : undefined}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          {downloads.length > 1 ? 'Downloads' : 'Download'}
+        </a>
+      )}
+
+      {data.genai && (
+        <span class="badge" data-tone={`ai-${data.genai}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
+            {/* A slash through the sparkle for the "no GenAI" case. */}
+            {data.genai === 'none' && <line x1="4" y1="20" x2="20" y2="4" />}
+          </svg>
+          {genaiLabel[data.genai]}
+        </span>
+      )}
+    </div>
+  )
+}
+
+<style>
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin-top: var(--space-2xs);
+  }
+
+  .badge {
+    --tone: var(--color-badge-live);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    padding: 2px var(--space-2xs);
+    border: 1px solid color-mix(in oklab, var(--tone) 40%, transparent);
+    border-radius: var(--radius);
+    background: color-mix(in oklab, var(--tone) 12%, transparent);
+    /* Label stays body-coloured so it's legible whatever the hue does in
+       either theme; the icon carries the colour. */
+    color: var(--color-text);
+    font-size: var(--size-step--1);
+    line-height: 1.4;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .badge[data-tone="live"] { --tone: var(--color-badge-live); }
+  .badge[data-tone="source"] { --tone: var(--color-badge-source); }
+  .badge[data-tone="download"] { --tone: var(--color-badge-download); }
+  .badge[data-tone="ai-none"] { --tone: var(--color-badge-ai-none); }
+  .badge[data-tone="ai-some"] { --tone: var(--color-badge-ai-some); }
+  .badge[data-tone="ai-used"] { --tone: var(--color-badge-ai-used); }
+
+  a.badge:hover {
+    background: color-mix(in oklab, var(--tone) 22%, transparent);
+    border-color: color-mix(in oklab, var(--tone) 70%, transparent);
+  }
+
+  .badge svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: none;
+    stroke: var(--tone);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Inside a project card the stretched link covers everything; the real
+     links have to sit above it to stay clickable. */
+  .raised a.badge {
+    position: relative;
+    z-index: 2;
+  }
+</style>

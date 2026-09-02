@@ -2,7 +2,8 @@
 title: Date Night
 summary: Your parents are on a date! What wacky antics can you get up to in the meantime? Made for 2026 GMTK Game Jam.
 date: 2026-07-22
-tags: [Game Jam, GDScript, Godot, Open Source, Website, Linux Executable, Windows Executable, No GenAI]
+tags: [Game Jam, GDScript, Godot, Open Source, Website, Linux Executable, Windows Executable]
+genai: none
 status: completed :3
 link: https://polytopeparty.itch.io/date-night
 source: https://github.com/fennylol/datenight
