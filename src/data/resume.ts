@@ -86,67 +86,119 @@ export type Award = {
 // ---- Content ------------------------------------------------------------
 
 export const basics = {
-  headline: 'Software developer',
-  location: 'City, Country',
+  headline: 'Electronic Design Automation Engineer',
+  location: 'Poughkeepsie, NY',
   summary:
-    'One short paragraph: what you do, what you care about, what kind of work ' +
-    'you want more of. Keep it to two or three sentences.',
+    'EDA engineer on IBM’s Clocking Optimization team, building on a B.S. in ' +
+    'Computer Science from Cedarville University (2025, GPA 3.85). Comfortable ' +
+    'moving between low-level systems work and building things end-to-end — ' +
+    'from a hand-rolled operating system to game jams to this site.',
 };
 
 export const skillGroups: SkillGroup[] = [
   {
     category: 'Languages',
     skills: [
-      { id: 'cpp', name: 'C++', comfort: 'advanced', note: 'daily driver at work' },
+      { id: 'c', name: 'C', comfort: 'advanced' },
+      { id: 'cpp', name: 'C++', comfort: 'advanced' },
+      { id: 'asm', name: 'x86 Assembly', comfort: 'proficient' },
+      { id: 'csharp', name: 'C#', comfort: 'working' },
+      { id: 'java', name: 'Java', comfort: 'familiar' },
       { id: 'python', name: 'Python', comfort: 'proficient' },
-      { id: 'js-ts', name: 'JavaScript / TypeScript', comfort: 'working' },
-      { id: 'sql', name: 'SQL', comfort: 'familiar' },
-      { id: 'gdscript', name: 'GDscript', comfort: 'advanced' },
+      { id: 'gdscript', name: 'GDScript', comfort: 'advanced' },
     ],
   },
   {
     category: 'Web',
     skills: [
       { id: 'html-css', name: 'HTML / CSS', comfort: 'proficient' },
+      { id: 'js-ts', name: 'JavaScript / TypeScript', comfort: 'working' },
       { id: 'react', name: 'React', comfort: 'working' },
+      { id: 'node', name: 'Node.js', comfort: 'working' },
+      { id: 'dotnet', name: '.NET Core', comfort: 'familiar' },
+      { id: 'php', name: 'PHP', comfort: 'familiar', note: 'Laravel, at Fieldstone' },
       { id: 'astro', name: 'Astro', comfort: 'familiar', note: 'this site' },
+    ],
+  },
+  {
+    category: 'Databases',
+    skills: [
+      { id: 'mysql', name: 'MySQL', comfort: 'familiar' },
+      { id: 'sqlite', name: 'SQLite', comfort: 'familiar' },
+      { id: 'sqlserver', name: 'SQL Server', comfort: 'familiar' },
+    ],
+  },
+  {
+    category: 'Game engines',
+    skills: [
+      { id: 'godot', name: 'Godot', comfort: 'advanced', note: 'several personal game projects' },
+      { id: 'unity', name: 'Unity', comfort: 'proficient' },
+      { id: 'unreal', name: 'Unreal Engine 5', comfort: 'familiar' },
     ],
   },
   {
     category: 'Tools & platforms',
     skills: [
       { id: 'git', name: 'Git', comfort: 'proficient' },
-      { id: 'linux', name: 'Linux', comfort: 'working' },
-      { id: 'docker', name: 'Docker', comfort: 'familiar' },
+      { id: 'linux', name: 'Linux', comfort: 'advanced' },
+      { id: 'shell', name: 'Shell Scripting', comfort: 'working' },
+      { id: 'gdb', name: 'GDB', comfort: 'familiar' },
+      { id: 'qemu', name: 'QEMU', comfort: 'familiar' },
+      { id: 'make', name: 'Make', comfort: 'familiar' },
     ],
   },
 ];
 
 export const experience: ExperienceEntry[] = [
   {
-    id: 'acme-swe',
-    org: 'Acme Corp',
-    role: 'Software Engineer',
-    location: 'Remote',
-    start: 'Jan 2024',
+    id: 'ibm-eda',
+    org: 'IBM',
+    role: 'Electronic Design Automation Engineer',
+    location: 'Poughkeepsie, NY',
+    start: 'Jun 2025',
     end: 'Present',
-    summary: 'One line on the team and what it ships.',
+    summary: 'Clocking Optimization team.',
     highlights: [
-      'Accomplishment with a concrete result — numbers if you have them.',
-      'Another one. Lead with the verb: built, shipped, cut, automated.',
-      'A third, showing range (a different kind of work than the first two).',
+      // TODO: 2-3 concrete wins from this role (what you shipped, improved,
+      // debugged, or automated) — didn't want to guess at real work here.
     ],
-    tags: ['C++', 'distributed systems'],
+    tags: ['EDA', 'clock optimization'],
   },
   {
-    id: 'previous-role',
-    org: 'Previous Company',
-    role: 'Junior Developer',
-    start: 'Jun 2022',
-    end: 'Dec 2023',
+    id: 'gmtk-2024',
+    org: 'GMTK Game Jam 2024',
+    role: 'Co-Lead Designer',
+    location: 'Virtual',
+    start: 'Aug 2024',
+    end: 'Aug 2024',
     highlights: [
-      'What you owned and what changed because you owned it.',
-      'Something you learned to do here that you now do well.',
+      'Co-developed a playable game with a partner and maintained reasonable ' +
+        'project scope to deliver within a 96-hour time constraint.',
+    ],
+  },
+  {
+    id: 'game-exhibition-2023',
+    org: 'Cedarville Game Exhibition',
+    role: 'Lead Designer',
+    location: 'Cedarville, OH',
+    start: 'Fall 2023',
+    end: 'Fall 2023',
+    highlights: [
+      'Developed a game using Unity and C# for an indie demo exhibition; ' +
+        'gained experience with team ideation, development, and project refinement.',
+    ],
+  },
+  {
+    id: 'fieldstone',
+    org: 'Fieldstone Software',
+    role: 'Junior Web Developer',
+    location: 'Waynesboro, VA',
+    start: 'Summer 2020',
+    end: 'Summer 2020',
+    highlights: [
+      'Worked in a development team using Laravel PHP to build, debug, and ' +
+        'deploy a web-based HVAC inventory tracking, scheduling, estimating, ' +
+        'and billing application.',
     ],
   },
 ];
@@ -155,16 +207,9 @@ export const awards: Award[] = [
   {
     id: 'deans-list',
     title: "Dean's List",
-    issuer: 'Your University',
-    date: '2021–2023',
-  },
-  {
-    id: 'some-cert',
-    title: 'A Certificate You Actually Earned',
-    issuer: 'Issuing Body',
-    date: 'Mar 2024',
-    note: 'One line on what it covered, if it is not obvious from the name.',
-    url: 'https://example.com/verify/abc123',
+    issuer: 'Cedarville University',
+    date: 'Spring 2023 – Fall 2024',
+    note: 'Spring 2023, Fall 2023, Spring 2024, Fall 2024',
   },
 ];
 
@@ -175,11 +220,16 @@ export const awards: Award[] = [
  */
 export const resumeProjects: { slug: string; highlights?: string[] }[] = [
   {
-    slug: 'example-project',
+    slug: 'shomp-os',
     highlights: [
-      'A résumé-specific bullet about this project.',
-      'What it demonstrates about how you work.',
+      'In a team of four, designed and developed a simple operating system ' +
+        'in C and x86 assembly to explore core OS features and low-level ' +
+        'programming concepts.',
     ],
   },
-  { slug: 'second-project' },
+  { slug: 'the-grand-wizard-perilacks' },
+  { slug: 'tournamancy' },
+  { slug: 'one-true-pingus' },
+  { slug: 'date-night' },
+  { slug: 'fennylol-portfolio' },
 ];
