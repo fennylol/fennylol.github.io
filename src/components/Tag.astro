@@ -4,15 +4,44 @@
 // to later turn tags into links to filter pages.
 interface Props {
   name: string;
+  /** Render as a toggle button (project-listing tag filter) instead of plain text. */
+  interactive?: boolean;
 }
-const { name } = Astro.props;
+const { name, interactive = false } = Astro.props;
 ---
 
-<span class="tag">#{name}</span>
+{
+  interactive ? (
+    <button type="button" class="tag" data-tag={name} aria-pressed="false">
+      #{name}
+    </button>
+  ) : (
+    <span class="tag">#{name}</span>
+  )
+}
 
 <style>
   .tag {
     color: var(--color-muted);
     white-space: nowrap;
+  }
+  button.tag {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    text-align: inherit;
+    cursor: pointer;
+  }
+  button.tag:hover {
+    color: var(--color-link);
+  }
+  button.tag.selected {
+    color: var(--color-text);
+    font-weight: 700;
+    font-size: 1.15em;
   }
 </style>

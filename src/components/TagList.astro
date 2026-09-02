@@ -5,16 +5,22 @@ interface Props {
   tags: string[];
   /** Optional lead-in text, e.g. "Tags:" */
   label?: string;
+  /** Render tags as toggle buttons (project-listing tag filter). */
+  interactive?: boolean;
 }
-const { tags, label } = Astro.props;
+const { tags, label, interactive = false } = Astro.props;
 ---
 
 {
   tags.length > 0 && (
-    <span class="tag-list">
+    <span
+      class="tag-list"
+      data-tag-filter={interactive ? true : undefined}
+      aria-label={interactive ? 'Filter projects by tag' : undefined}
+    >
       {label && <span>{label}</span>}
       {tags.map((tag) => (
-        <Tag name={tag} />
+        <Tag name={tag} interactive={interactive} />
       ))}
     </span>
   )

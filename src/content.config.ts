@@ -21,7 +21,10 @@ const projects = defineCollection({
     status: z.enum(['in development :]', 'completed :3', 'live :O', 'abandoned :[']).default('in development :]'),
     // Optional outbound links shown on the project.
     source: z.string().url().optional(), // source code
-    link: z.string().url().optional(), // live demo / site
+    // Live demo / site. Usually an absolute URL, but a root-relative path
+    // (e.g. "/") is allowed too — for the rare project that just *is* this
+    // site, linking to its own homepage.
+    link: z.string().optional(),
     /**
      * Downloadable artifacts: builds, binaries, papers, asset packs.
      * `href` is either a local path (drop the file in public/, e.g.

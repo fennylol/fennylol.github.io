@@ -2,7 +2,7 @@
 title: Tournamancy
 summary: A second example so you can see how the projects grid looks with more than one card in it.
 date: 2026-05-15
-tags: [Game, Godot, Multiplayer]
+tags: [Personal Project, GDScript, Godot, Open Source, Website, Linux Executable, Windows Executable]
 status: in development :]
 source: https://github.com/fennylol/tournamancy
 downloads:

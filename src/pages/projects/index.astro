@@ -15,14 +15,14 @@ const tags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
   <header class="stack-s page-head">
     <h1>Projects</h1>
     <p class="muted">Things I've built, in rough reverse-chronological order.</p>
-    <TagList tags={tags} label="Tags:" />
+    <TagList tags={tags} label="Tags:" interactive />
   </header>
 
   {
     projects.length === 0 ? (
       <p class="muted">Nothing here yet. Check back soon.</p>
     ) : (
-      <div class="grid">
+      <div class="grid" data-project-grid>
         {projects.map((project) => (
           <ProjectCard project={project} />
         ))}
@@ -41,3 +41,62 @@ const tags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
   }
 </style>
+
+<!-- script block: tag filter for the grid above. Click a tag to bring
+     matching projects to the top and dim the rest; click more tags to sort
+     by how many of them a project matches. Reorders via CSS `order` and
+     dims via a --match-brightness custom property — no DOM moves. -->
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-project-grid]');
+  const cards = grid
+    ? Array.from(grid.querySelectorAll<HTMLElement>('[data-tags]'))
+    : [];
+  const tagButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>(
+      '[data-tag-filter] button[data-tag]',
+    ),
+  );
+
+  // Dimmest bucket's brightness (0 selected-tag matches). The best-matching
+  // bucket is always full brightness (1); buckets in between interpolate.
+  const MIN_BRIGHTNESS = 0.4;
+
+  const selected = new Set<string>();
+
+  function apply() {
+    const n = selected.size;
+    cards.forEach((card, i) => {
+      if (n === 0) {
+        card.style.order = '';
+        card.style.removeProperty('--match-brightness');
+        return;
+      }
+      const tags: string[] = JSON.parse(card.dataset.tags ?? '[]');
+      const matchCount = tags.filter((t) => selected.has(t)).length;
+      // Lower tier sorts first. Original index as a tiebreak preserves the
+      // page's existing order (featured, then newest) within a tier.
+      const tier = n - matchCount;
+      card.style.order = String(tier * 1000 + i);
+      const brightness =
+        MIN_BRIGHTNESS + (1 - MIN_BRIGHTNESS) * (matchCount / n);
+      card.style.setProperty('--match-brightness', String(brightness));
+    });
+  }
+
+  tagButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const tag = button.dataset.tag;
+      if (!tag) return;
+      if (selected.has(tag)) {
+        selected.delete(tag);
+        button.classList.remove('selected');
+        button.setAttribute('aria-pressed', 'false');
+      } else {
+        selected.add(tag);
+        button.classList.add('selected');
+        button.setAttribute('aria-pressed', 'true');
+      }
+      apply();
+    });
+  });
+</script>

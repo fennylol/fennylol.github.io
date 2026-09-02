@@ -59,6 +59,12 @@ const posts = (await getPosts()).slice(0, 3);
     font-size: var(--size-step-3);
     max-width: 20ch;
   }
+  .hero .eyebrow {
+    /* The name shouldn't wrap mid-word just because the tagline below it
+       is capped at 20ch. */
+    max-width: none;
+    white-space: nowrap;
+  }
   .intro {
     max-width: 55ch;
   }
