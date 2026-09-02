@@ -2,7 +2,7 @@
 title: Tournamancy
 summary: A multiplayer first-person boomer shooter where wizards knock each other out to steal spells.
 date: 2026-05-15
-tags: [Personal Project, GDScript, Godot, Open Source, Linux Executable, Windows Executable]
+tags: [Personal Project, GDScript, Godot, Open Source, Linux Executable, Windows Executable, No GenAI]
 status: in development :]
 source: https://github.com/fennylol/tournamancy
 featured: false
