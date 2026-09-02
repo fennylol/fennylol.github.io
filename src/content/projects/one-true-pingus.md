@@ -10,8 +10,8 @@ featured: true
 
 A lightweight, dependency-free Godot utility for managing an arbitrary
 number of peer-to-peer UDP connections — no relay server, no Godot
-high-level multiplayer API, just raw packets over `PacketPeerUDP`. Built
-for and used in [Tournamancy](/projects/tournamancy).
+high-level multiplayer API, just raw packets over `PacketPeerUDP`. Now used
+in [Tournamancy](/projects/tournamancy).
 
 ## Connection lifecycle
 
@@ -26,38 +26,41 @@ if they go quiet past a timeout.
 
 ## NAT traversal
 
-A companion `AddressGopher` class discovers your external IP:port by
-querying a random STUN server pulled from
-[pradt2's always-online-stun list](https://github.com/pradt2/always-online-stun),
-so two peers behind separate routers can find each other without any port
-forwarding.
+The module automatically discovers its own external IP:port combination via
+STUN, so two peers behind separate routers can find each other without any
+port forwarding.
 
 ## Public API
 
 **Signals**
-- `received_data(sender_id, data_type, data)` — a packet arrived.
-  `data_type` is caller-defined (your own enum), except the reserved
-  internal `CONTROL` type used for status/debug messages.
-- `connection_established(sender_id, address, port)` — a peer finished the
-  handshake and is now `CONNECTED`.
+- `received_data(sender_id, data_type, data)` — Emitted upon receipt of a
+  packet. The `data_type` parameter is defined by the calling application,
+  with the exception of the reserved `CONTROL` type, which is used
+  internally to report status and diagnostic information.
+- `connection_established(sender_id, address, port)` — Emitted when a
+  peer's connection state transitions to `CONNECTED`, indicating that the
+  handshake has completed successfully.
 
 **Key methods**
-- `add_peer(target_addr, target_port, target_id = 0)` — start tracking a
-  peer and begin the handshake.
-- `send_data(data_type, data)` — send typed application data to every
-  connected peer.
-- `get_addr_port(external = true)` — this instance's own address, external
-  (WAN, post-STUN) or local.
+- `add_peer(target_addr, target_port, target_id = 0)` — Registers a peer
+  for tracking and initiates the connection handshake.
+- `send_data(data_type, data)` — Transmits typed application data to all
+  peers currently in the `CONNECTED` state.
+- `get_addr_port(external = true)` — Returns the address and port of the
+  local instance. When `external` is true, the externally-facing address
+  is returned; otherwise, the local address is returned.
 
 **Key properties**
-- `Peers: Array[PingusPeer]` — every peer, connected or not.
-- `NetworkID: int` — a random ID that disambiguates this instance's traffic
-  on the wire.
-- `ExternAddr` / `ExternPort` — this instance's external-facing address,
-  once discovered.
+- `Peers: Array[PingusPeer]` — Contains all known peers, regardless of
+  connection state.
+- `NetworkID: int` — A randomly generated identifier used to distinguish
+  this instance's traffic on the network.
+- `ExternAddr` / `ExternPort` — The externally-facing address and port of
+  this instance, once discovered.
 
-## Known limitations
+## To-do
 
-Straight from the source's own to-do list: LAN/WAN cross-connections
-aren't supported yet — peers need to already be reachable at a known
-address:port.
+- Enable simultaneous WAN and LAN connections.
+- Support a host/client architecture mode as an alternative to the
+  peer-to-peer mesh — still peer-to-peer, but with one peer designated as
+  the dedicated host.
