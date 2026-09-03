@@ -13,6 +13,18 @@ const posts = await getPosts();
       Notes, write-ups, and thinking out loud.
       <a href="/rss.xml">Subscribe via RSS</a>.
     </p>
+
+    {/* The same claim the project badges make, in the same visual language. */}
+    <p class="ai-note">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
+        <line x1="4" y1="20" x2="20" y2="4" />
+      </svg>
+      <span>
+        Everything here is written by me, without generative AI — so please
+        forgive any grammatical errors.
+      </span>
+    </p>
   </header>
 
   {
@@ -31,5 +43,31 @@ const posts = await getPosts();
 <style>
   .page-head {
     padding-block: var(--space-l);
+  }
+
+  /* Borrows the "No GenAI" badge's tone so the blog-wide claim and the
+     per-project ones read as the same statement. */
+  .ai-note {
+    --tone: var(--color-badge-ai-none);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs) var(--space-xs);
+    border: 1px solid color-mix(in oklab, var(--tone) 40%, transparent);
+    border-radius: var(--radius);
+    background: color-mix(in oklab, var(--tone) 12%, transparent);
+    font-size: var(--size-step--1);
+    color: var(--color-muted);
+  }
+  .ai-note svg {
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: 0.15em;
+    fill: none;
+    stroke: var(--tone);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 </style>
