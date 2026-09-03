@@ -8,11 +8,20 @@ interface Props {
 }
 const { date, updated } = Astro.props;
 
+/*
+ * Formatted in UTC on purpose. A frontmatter `date: 2026-09-01` is a calendar
+ * date, not an instant — but JS parses a date-only string as UTC midnight, so
+ * formatting in the build machine's local zone shifts it a day earlier
+ * anywhere west of Greenwich (EDT turned Sep 1 into "Aug 31"). Pinning to UTC
+ * renders the date as written, and keeps a local build and a CI build (which
+ * runs in UTC) in agreement.
+ */
 const fmt = (d: Date) =>
   d.toLocaleDateString(site.locale, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
+    timeZone: 'UTC',
   });
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 ---
