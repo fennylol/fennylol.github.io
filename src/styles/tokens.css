@@ -19,6 +19,7 @@
   --text-body: var(--font-sans);
   --text-heading: var(--font-sans);
 
+  --size-step--2: 0.75rem;
   --size-step--1: 0.875rem;
   --size-step-0: 1rem;
   --size-step-1: 1.25rem;
@@ -106,8 +107,12 @@
   /* ================= Semantic tokens (default: Latte) ================= */
   --color-bg: var(--latte-base);
   --color-surface: var(--latte-surface0);
+  /* Brightness ramp, brightest to dimmest:
+     --color-text > --color-subtle > --color-muted > --color-faint */
   --color-text: var(--latte-text);
+  --color-subtle: var(--latte-subtext1);
   --color-muted: var(--latte-subtext0);
+  --color-faint: var(--latte-overlay1);
   --color-border: var(--latte-surface1);
   --color-link: var(--latte-blue);
   --color-link-hover: var(--latte-lavender);
@@ -134,7 +139,9 @@
   --color-bg: var(--mocha-base);
   --color-surface: var(--mocha-surface0);
   --color-text: var(--mocha-text);
+  --color-subtle: var(--mocha-subtext1);
   --color-muted: var(--mocha-subtext0);
+  --color-faint: var(--mocha-overlay1);
   --color-border: var(--mocha-surface1);
   --color-link: var(--mocha-blue);
   --color-link-hover: var(--mocha-lavender);
@@ -162,7 +169,9 @@
     --color-bg: var(--mocha-base);
     --color-surface: var(--mocha-surface0);
     --color-text: var(--mocha-text);
+    --color-subtle: var(--mocha-subtext1);
     --color-muted: var(--mocha-subtext0);
+    --color-faint: var(--mocha-overlay1);
     --color-border: var(--mocha-surface1);
     --color-link: var(--mocha-blue);
     --color-link-hover: var(--mocha-lavender);
