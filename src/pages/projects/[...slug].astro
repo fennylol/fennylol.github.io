@@ -4,6 +4,7 @@ import { render } from 'astro:content';
 import Post from '../../layouts/Post.astro';
 import ProjectBadges from '../../components/ProjectBadges.astro';
 import { getProjects } from '../../lib/content';
+import { externalAttrs } from '../../lib/links';
 
 export const getStaticPaths = (async () => {
   const projects = await getProjects();
@@ -42,6 +43,7 @@ const { Content } = await render(project);
               <a
                 href={d.href}
                 download={d.href.startsWith('/') ? true : undefined}
+                {...externalAttrs(d.href)}
               >
                 {d.label} ↓
               </a>

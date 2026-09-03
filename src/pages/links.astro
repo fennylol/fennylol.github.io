@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { linkSections } from '../data/links';
+import { externalAttrs } from '../lib/links';
 ---
 
 <Base
@@ -24,7 +25,9 @@ import { linkSections } from '../data/links';
           <ul>
             {section.links.map((link) => (
               <li>
-                <a href={link.href}>{link.title}</a>
+                <a href={link.href} {...externalAttrs(link.href)}>
+                  {link.title}
+                </a>
                 {link.note && <span class="muted"> — {link.note}</span>}
               </li>
             ))}

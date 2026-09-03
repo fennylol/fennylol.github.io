@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { externalAttrs } from '../lib/links';
 
 /**
  * The row of labelled badges shown for a project: its links (live, source,
@@ -38,7 +39,7 @@ const genaiLabel = {
        always renders. */
     <div class:list={['badges', { raised }]}>
       {data.link && (
-        <a class="badge" data-tone="live" href={data.link}>
+        <a class="badge" data-tone="live" href={data.link} {...externalAttrs(data.link)}>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
             <polyline points="15 3 21 3 21 9" />
@@ -49,7 +50,7 @@ const genaiLabel = {
       )}
 
       {data.source && (
-        <a class="badge" data-tone="source" href={data.source}>
+        <a class="badge" data-tone="source" href={data.source} {...externalAttrs(data.source)}>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <polyline points="16 18 22 12 16 6" />
             <polyline points="8 6 2 12 8 18" />
@@ -64,6 +65,7 @@ const genaiLabel = {
           data-tone="download"
           href={downloadHref}
           download={forcesDownload ? true : undefined}
+          {...externalAttrs(downloadHref)}
         >
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />

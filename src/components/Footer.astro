@@ -1,5 +1,6 @@
 ---
 import { social, site } from '../site.config';
+import { externalAttrs } from '../lib/links';
 const year = new Date().getFullYear();
 ---
 
@@ -10,7 +11,9 @@ const year = new Date().getFullYear();
       {
         social.map((item) => (
           <li>
-            <a href={item.href}>{item.label}</a>
+            <a href={item.href} {...externalAttrs(item.href)}>
+              {item.label}
+            </a>
           </li>
         ))
       }

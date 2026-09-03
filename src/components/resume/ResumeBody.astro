@@ -11,6 +11,7 @@ import {
 } from '../../data/resume';
 import { social, site } from '../../site.config';
 import { getProjects } from '../../lib/content';
+import { externalAttrs } from '../../lib/links';
 
 interface Props {
   /** Render a checkbox beside every selectable item (the builder page). */
@@ -67,7 +68,7 @@ const stripScheme = (href: string) =>
       {
         social.map((s) => (
           <div>
-            <a href={s.href}>
+            <a href={s.href} {...externalAttrs(s.href)}>
               <span class="no-print">{s.label}</span>
               <span class="print-only">{stripScheme(s.href)}</span>
             </a>
@@ -203,8 +204,16 @@ const stripScheme = (href: string) =>
             </h3>
             {(entry.data.link || entry.data.source) && (
               <span class="muted links no-print">
-                {entry.data.link && <a href={entry.data.link}>live</a>}
-                {entry.data.source && <a href={entry.data.source}>source</a>}
+                {entry.data.link && (
+                  <a href={entry.data.link} {...externalAttrs(entry.data.link)}>
+                    live
+                  </a>
+                )}
+                {entry.data.source && (
+                  <a href={entry.data.source} {...externalAttrs(entry.data.source)}>
+                    source
+                  </a>
+                )}
               </span>
             )}
           </div>
