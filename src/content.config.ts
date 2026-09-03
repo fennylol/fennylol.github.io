@@ -68,6 +68,9 @@ const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
+    /** Same deal as a project's: display-only second line, kept out of
+     *  `title` so the <title>, OG tags and RSS keep the short form. */
+    subtitle: z.string().optional(),
     summary: z.string(),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),

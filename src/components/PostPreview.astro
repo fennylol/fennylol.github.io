@@ -11,6 +11,7 @@ const { data, id } = post;
 
 <article class="post-preview">
   <h3><a href={`/blog/${id}`}>{data.title}</a></h3>
+  {data.subtitle && <p class="post-subtitle muted">{data.subtitle}</p>}
   <p class="muted date"><FormattedDate date={data.date} /></p>
   <p>{data.summary}</p>
 </article>
@@ -26,6 +27,11 @@ const { data, id } = post;
   .post-preview h3 a:hover {
     color: var(--color-link);
     text-decoration: underline;
+  }
+  .post-subtitle {
+    font-size: var(--size-step-0);
+    line-height: 1.35;
+    margin-top: var(--space-3xs);
   }
   .date {
     font-size: var(--size-step--1);
