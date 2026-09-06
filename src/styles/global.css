@@ -91,11 +91,33 @@ pre {
   border-radius: 4px;
 }
 pre {
-  background: var(--color-code-bg);
   padding: var(--space-s);
   border-radius: var(--radius);
   overflow-x: auto;
   border: var(--border);
+}
+/* Shiki (see astro.config.mjs) ships each highlighted block with both
+   Catppuccin palettes: the Latte colours are applied inline, the Mocha ones
+   ride along as --shiki-dark* custom properties. Swap to Mocha when the dark
+   theme is active — mirrored as an explicit [data-theme] rule plus a no-JS
+   media fallback, the same shape tokens.css uses. */
+:root[data-theme="dark"] .astro-code,
+:root[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .astro-code,
+  :root:not([data-theme="light"]) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
 }
 
 hr {

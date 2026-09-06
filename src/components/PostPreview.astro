@@ -14,16 +14,15 @@ const { data, id } = post;
     <h3><a href={`/blog/${id}`}>{data.title}</a></h3>
     <p class="date"><FormattedDate date={data.date} /></p>
   </div>
-  {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
   <p class="summary">{data.summary}</p>
 </article>
 
 <style>
   /*
-   * Visual weight runs title → subtitle → summary → date, in both size and
-   * brightness, even though the date sits top-right. Sizes step down through
-   * the type scale; colours step down the --color-text/subtle/muted/faint
-   * ramp in tokens.css.
+   * Visual weight runs title → summary → date, in both size and brightness,
+   * even though the date sits top-right. Sizes step down through the type
+   * scale; colours step down the --color-text/subtle/muted/faint ramp in
+   * tokens.css.
    */
   .head {
     display: flex;
@@ -52,15 +51,8 @@ const { data, id } = post;
     white-space: nowrap;
   }
 
-  .subtitle {
-    font-size: var(--size-step-0);
-    color: var(--color-subtle);
-    line-height: 1.35;
-    margin-top: var(--space-3xs);
-  }
-
   .summary {
-    font-size: var(--size-step--1);
+    font-size: var(--size-step-0);
     color: var(--color-muted);
     margin-top: var(--space-2xs);
   }

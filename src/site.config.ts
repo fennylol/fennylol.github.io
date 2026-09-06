@@ -17,7 +17,7 @@ export const site = {
   url: SITE_URL,
   // Used by the RSS feed and OG tags.
   description:
-    'Personal site of Your Name — projects, writing, and a pile of links.',
+    'Projects, writing, and a pile of links, by Joshua "fenny" Fenneran.',
   locale: 'en',
 };
 

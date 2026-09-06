@@ -15,7 +15,7 @@ const posts = (await getPosts()).slice(0, 3);
 <Base wide>
   <section class="hero stack-s">
     <h1 class="eyebrow">{site.title}</h1>
-    <h1>{site.tagline}</h1>
+    {site.tagline && <h1>{site.tagline}</h1>}
     <p class="muted intro">
       (The "Joshua" is silent)
     </p>

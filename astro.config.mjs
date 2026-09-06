@@ -26,6 +26,12 @@ export default defineConfig({
   trailingSlash: 'ignore',
   markdown: {
     rehypePlugins: [externalLinksInNewTab],
+    // Catppuccin, matching the site's Latte/Mocha themes. Astro emits both
+    // palettes on every token (color + --shiki-dark); src/styles/global.css
+    // activates the dark set whenever the dark theme is in effect.
+    shikiConfig: {
+      themes: { light: 'catppuccin-latte', dark: 'catppuccin-mocha' },
+    },
   },
   build: {
     // Emit /about/index.html style paths — clean URLs on static hosts.

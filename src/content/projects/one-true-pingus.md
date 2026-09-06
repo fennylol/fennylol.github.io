@@ -8,6 +8,7 @@ status: completed :3
 source: https://github.com/fennylol/multi-player-coupler
 featured: true
 ---
+**NOTE: *To read about why and how this project was developed, read [this blog post](/blog/on-the-pingus).***
 
 A Godot utility for managing an arbitrary number of UDP connections as a
 pure, relay-server-free peer-to-peer mesh. Built directly on
