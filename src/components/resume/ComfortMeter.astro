@@ -13,6 +13,7 @@ const dots = Array.from({ length: comfortDotCount }, (_, i) => i + 1);
 
 <span
   class="comfort"
+  data-rank={rank}
   title={blurb}
   aria-label={`${label} (${rank} of ${comfortDotCount})`}
 >
@@ -49,9 +50,17 @@ const dots = Array.from({ length: comfortDotCount }, (_, i) => i + 1);
     border: 1px solid var(--color-muted);
   }
   .dot.on {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+    background: var(--tone, var(--color-accent));
+    border-color: var(--tone, var(--color-accent));
   }
+  /* One color per rank — every filled dot in a meter shares its skill's
+     overall rank color, purple (1) through blue (5), rather than each dot
+     position having its own hue. */
+  .comfort[data-rank="1"] { --tone: var(--color-dot-1); }
+  .comfort[data-rank="2"] { --tone: var(--color-dot-2); }
+  .comfort[data-rank="3"] { --tone: var(--color-dot-3); }
+  .comfort[data-rank="4"] { --tone: var(--color-dot-4); }
+  .comfort[data-rank="5"] { --tone: var(--color-dot-5); }
   /* No print rules needed: on /resume this meter lives inside a .no-print
      list, and the PDF uses a separate plain-text skills line. */
 </style>

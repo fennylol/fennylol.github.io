@@ -31,12 +31,9 @@ import ResumeBody from '../../components/resume/ResumeBody.astro';
 
 <script>
   import {
-    addToSelection,
     decodeSelection,
-    emptySelection,
     encodeSelection,
-    selectedIds,
-    type SelectionKind,
+    type IdEntry,
   } from '../../lib/resume-selection';
 
   const picks = Array.from(
@@ -61,46 +58,55 @@ import ResumeBody from '../../components/resume/ResumeBody.astro';
   const hostOf = (pick: HTMLInputElement) =>
     pick.closest<HTMLElement>('[data-rid]');
 
+  // Every selectable item's id + kind, in DOM order, which mirrors
+  // resume.ts's authored order. Same derivation the viewer page uses, so a
+  // link encoded here decodes correctly there.
+  const entries: IdEntry[] = picks.flatMap((pick) => {
+    const host = hostOf(pick);
+    const id = host?.dataset.rid;
+    const kind = host?.dataset.kind;
+    return id && kind ? [{ id, kind }] : [];
+  });
+
   function updateCount() {
     const n = picks.filter((p) => p.checked).length;
     if (countEl) countEl.textContent = `${n} of ${picks.length} selected`;
   }
 
-  /** Read the checkboxes into a Selection. */
+  /** Read the checkboxes and text fields into a selection + overrides. */
   function collect() {
-    const selection = emptySelection();
+    const keep = new Set<string>();
     for (const pick of picks) {
       if (!pick.checked) continue;
-      const host = hostOf(pick);
-      const id = host?.dataset.rid;
-      const kind = host?.dataset.kind as SelectionKind | undefined;
-      if (id && kind) addToSelection(selection, kind, id);
+      const id = hostOf(pick)?.dataset.rid;
+      if (id) keep.add(id);
     }
 
     // Only carry the text fields in the URL when they differ from what the
     // page shipped with — defaultValue is the server-rendered original, so
-    // an untouched builder produces a short link.
+    // an untouched builder produces a shorter link.
+    const overrides: { h?: string; b?: string } = {};
     const headline = headlineInput?.value.trim() ?? '';
     if (headlineInput && headline !== headlineInput.defaultValue.trim()) {
-      selection.h = headline;
+      overrides.h = headline;
     }
     const summary = summaryInput?.value.trim() ?? '';
     if (summaryInput && summary !== summaryInput.defaultValue.trim()) {
-      selection.b = summary;
+      overrides.b = summary;
     }
 
-    return selection;
+    return { keep, overrides };
   }
 
   // Arriving with ?r=... (e.g. "edit this selection") pre-ticks the boxes.
   const incoming = decodeSelection(
     new URLSearchParams(location.search).get('r'),
+    entries,
   );
   if (incoming) {
-    const keep = selectedIds(incoming);
     for (const pick of picks) {
       const id = hostOf(pick)?.dataset.rid;
-      pick.checked = id ? keep.has(id) : false;
+      pick.checked = id ? incoming.keep.has(id) : false;
     }
     if (headlineInput && typeof incoming.h === 'string') {
       headlineInput.value = incoming.h;
@@ -126,7 +132,8 @@ import ResumeBody from '../../components/resume/ResumeBody.astro';
   });
 
   document.getElementById('view-resume')?.addEventListener('click', () => {
-    location.href = `/resume/view?r=${encodeSelection(collect())}`;
+    const { keep, overrides } = collect();
+    location.href = `/resume?r=${encodeSelection(entries, keep, overrides)}`;
   });
 </script>
 

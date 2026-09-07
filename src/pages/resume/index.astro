@@ -4,15 +4,132 @@ import ResumeBody from '../../components/resume/ResumeBody.astro';
 import { site } from '../../site.config';
 ---
 
+{/*
+  This page is built once with EVERY résumé item present in the HTML. The
+  script below reads ?r=<blob> and removes whatever wasn't selected. That
+  keeps the served page real, pre-rendered HTML (good for print and for text
+  extraction) — and with JavaScript off, or with no ?r= at all, you get the
+  complete résumé rather than a blank page.
+*/}
 <Base title="Résumé" description={`Résumé of ${site.title}.`} wide>
   <div class="actions no-print">
-    <button type="button" onclick="window.print()">Save as PDF</button>
-    <a href="/resume/builder">Build a tailored résumé &rarr;</a>
-    <a href="/#featured">See featured projects &rarr;</a>
+    <button type="button" id="save-pdf" data-tone="pdf">Save as PDF</button>
+    <button type="button" id="edit-link" data-tone="edit">Tailor résumé</button>
+    <button type="button" id="full-resume" data-tone="full">Full résumé</button>
+    <button type="button" id="copy-link" data-tone="copy">Copy link</button>
+    <span class="muted" id="copy-status" aria-live="polite"></span>
   </div>
 
   <ResumeBody />
 </Base>
+
+<script>
+  import { decodeSelection, type IdEntry } from '../../lib/resume-selection';
+
+  const params = new URLSearchParams(location.search);
+  const raw = params.get('r');
+
+  // Every selectable item's id + kind, first-seen [data-rid] order — dedupes
+  // the print-only skill-line duplicates and matches the order the builder
+  // page derives from its checkboxes.
+  const entries: IdEntry[] = [];
+  {
+    const seen = new Set<string>();
+    for (const el of document.querySelectorAll<HTMLElement>('[data-rid]')) {
+      const id = el.dataset.rid;
+      const kind = el.dataset.kind;
+      if (id && kind && !seen.has(id)) {
+        seen.add(id);
+        entries.push({ id, kind });
+      }
+    }
+  }
+
+  const selection = decodeSelection(raw, entries);
+
+  document.getElementById('save-pdf')?.addEventListener('click', () => {
+    window.print();
+  });
+
+  // Carry the same blob back to the builder so "Edit selection" pre-ticks.
+  document.getElementById('edit-link')?.addEventListener('click', () => {
+    location.href = raw ? `/resume/builder?r=${raw}` : '/resume/builder';
+  });
+
+  // Drops any ?r=/?share= and shows the complete résumé again. Pointless
+  // when that's already what's on screen, so it's only shown otherwise.
+  if (raw) {
+    document.getElementById('full-resume')?.addEventListener('click', () => {
+      location.href = '/resume';
+    });
+  } else {
+    document.getElementById('full-resume')?.remove();
+  }
+
+  // A link copied via "Copy link" carries share=1, so whoever opens it sees
+  // only the read/export actions — not the controls for editing or
+  // re-sharing someone else's chosen selection.
+  if (params.get('share') === '1') {
+    document.getElementById('edit-link')?.remove();
+    document.getElementById('copy-link')?.remove();
+    document.getElementById('copy-status')?.remove();
+  }
+
+  // No blob, or a blob we can't read → leave the full résumé on screen.
+  if (selection) {
+    const { keep } = selection;
+
+    // 0. Apply the headline / summary overrides. An empty string means the
+    //    builder cleared the field, so drop the element entirely.
+    const applyText = (id: string, value: string | undefined) => {
+      if (typeof value !== 'string') return; // absent → keep the default
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (value) el.textContent = value;
+      else el.remove();
+    };
+    applyText('headline', selection.h);
+    applyText('summary', selection.b);
+
+    // 1. Drop every item that wasn't selected.
+    for (const el of document.querySelectorAll<HTMLElement>('[data-rid]')) {
+      if (!keep.has(el.dataset.rid ?? '')) el.remove();
+    }
+
+    // 2. Rebuild the comma separators on the plain-text skills lines, so the
+    //    PDF reads "C++ (Advanced), Git (Proficient)" with no stray commas.
+    for (const line of document.querySelectorAll('.skills-line')) {
+      const items = line.querySelectorAll<HTMLElement>('.skills-line-item');
+      items.forEach((item, i) => {
+        item.textContent = (i > 0 ? ', ' : '') + (item.dataset.label ?? '');
+      });
+    }
+
+    // 3. Remove skill groups and whole sections that lost all their content.
+    for (const group of document.querySelectorAll('.skill-group')) {
+      if (!group.querySelector('[data-rid]')) group.remove();
+    }
+    for (const section of document.querySelectorAll('.resume-section')) {
+      if (!section.querySelector('[data-rid]')) section.remove();
+    }
+  }
+
+  // Copy the current URL — the whole point of the encoded link. The copy
+  // itself gets a share=1 flag; the page you're standing on right now is
+  // untouched by it.
+  const status = document.getElementById('copy-status');
+  document.getElementById('copy-link')?.addEventListener('click', async () => {
+    const shareUrl = new URL(location.href);
+    shareUrl.searchParams.set('share', '1');
+    try {
+      await navigator.clipboard.writeText(shareUrl.toString());
+      if (status) status.textContent = 'Copied.';
+    } catch {
+      if (status) status.textContent = 'Copy failed — select the URL bar.';
+    }
+    setTimeout(() => status && (status.textContent = ''), 2500);
+  });
+</script>
 
 <style>
   .actions {
@@ -24,14 +141,25 @@ import { site } from '../../site.config';
     max-width: 48rem;
     margin-inline: auto;
   }
+  /* Same tinted-badge treatment as the project link badges: each button
+     gets its own catppuccin hue via --tone, tinting background/border with
+     color-mix while the label stays --color-text for legibility. */
   .actions button {
+    --tone: var(--color-accent);
     padding: var(--space-2xs) var(--space-s);
-    border: var(--border);
+    border: 1px solid color-mix(in oklab, var(--tone) 40%, transparent);
     border-radius: var(--radius);
-    background: var(--color-surface);
+    background: color-mix(in oklab, var(--tone) 12%, transparent);
+    color: var(--color-text);
+    font: inherit;
     cursor: pointer;
   }
   .actions button:hover {
-    border-color: var(--color-link);
+    background: color-mix(in oklab, var(--tone) 22%, transparent);
+    border-color: color-mix(in oklab, var(--tone) 70%, transparent);
   }
+  .actions button[data-tone="pdf"] { --tone: var(--color-badge-download); }
+  .actions button[data-tone="edit"] { --tone: var(--color-accent); }
+  .actions button[data-tone="full"] { --tone: var(--color-badge-live); }
+  .actions button[data-tone="copy"] { --tone: var(--color-action-copy); }
 </style>
