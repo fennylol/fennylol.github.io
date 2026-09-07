@@ -25,10 +25,11 @@ export const site = {
 export const nav: { label: string; href: string }[] = [
   { label: 'Home', href: '/' },
   { label: 'Projects', href: '/projects' },
+  { label: 'Write-ups', href: '/blog' },
+  { label: 'AI', href: '/ai' },
   { label: 'Résumé', href: '/resume' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Links', href: '/links' },
   { label: 'Now', href: '/now' },
+  { label: 'Links', href: '/links' },
 ];
 
 /** Footer links — the "find me elsewhere" row. */

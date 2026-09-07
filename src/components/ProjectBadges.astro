@@ -16,10 +16,21 @@ const { project, raised = false } = Astro.props;
 const { data, id } = project;
 const { downloads } = data;
 
-// One download → link straight at the file. Several → send them to the
-// project page, where they're all listed with labels.
+// The downloads card on the project page only lists direct (same-origin)
+// files — a remote link (e.g. an itch.io page) is nothing more than what
+// the badge below already points at, so it'd just be a redundant box.
+const hasDirectDownload = downloads.some((d) => d.href.startsWith('/'));
+
+// One download → link straight at the file. Several with at least one
+// direct file → send them to the project page's downloads card. Several
+// but all remote (or none at all) → no card exists to send them to, so
+// link the first if there is one.
 const downloadHref =
-  downloads.length === 1 ? downloads[0].href : `/projects/${id}#downloads`;
+  downloads.length === 1
+    ? downloads[0].href
+    : hasDirectDownload
+      ? `/projects/${id}#downloads`
+      : downloads[0]?.href;
 // The `download` attribute only forces a save for same-origin files; on a
 // cross-origin URL browsers ignore it and let the server's headers decide.
 const forcesDownload =
@@ -76,14 +87,14 @@ const genaiLabel = {
         </a>
       )}
 
-      <span class="badge" data-tone={`ai-${data.genai}`}>
+      <a class="badge" data-tone={`ai-${data.genai}`} href="/ai">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
           {/* A slash through the sparkle for the "no GenAI" case. */}
           {data.genai === 'none' && <line x1="4" y1="20" x2="20" y2="4" />}
         </svg>
         {genaiLabel[data.genai]}
-      </span>
+      </a>
     </div>
   )
 }

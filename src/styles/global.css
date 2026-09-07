@@ -15,6 +15,12 @@ html {
 }
 body {
   min-height: 100vh;
+  /* Sticky footer: main (the only auto-sizing child) absorbs any leftover
+     viewport height on short pages, so the footer stays its natural size
+     and sits pinned to the bottom instead of the whole page stretching
+     into what reads as an oversized footer. */
+  display: flex;
+  flex-direction: column;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--text-body);
@@ -144,6 +150,9 @@ blockquote {
   max-width: var(--content-width);
   margin-inline: auto;
   padding-inline: var(--space-s);
+}
+main.wrap {
+  flex: 1;
 }
 .wrap--wide {
   max-width: var(--wide-width);

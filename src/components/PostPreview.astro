@@ -9,51 +9,80 @@ const { post } = Astro.props;
 const { data, id } = post;
 ---
 
-<article class="post-preview">
-  <div class="head">
-    <h3><a href={`/blog/${id}`}>{data.title}</a></h3>
-    <p class="date"><FormattedDate date={data.date} /></p>
-  </div>
+<article class="card">
+  <h3 class="card-title">
+    {/* The whole card is clickable via this link's stretched ::after. */}
+    <a class="card-link" href={`/blog/${id}`}>{data.title}</a>
+  </h3>
   <p class="summary">{data.summary}</p>
+  <div class="meta muted">
+    <FormattedDate date={data.date} />
+  </div>
 </article>
 
 <style>
   /*
-   * Visual weight runs title → summary → date, in both size and brightness,
-   * even though the date sits top-right. Sizes step down through the type
-   * scale; colours step down the --color-text/subtle/muted/faint ramp in
-   * tokens.css.
+   * Mirrors ProjectCard's card treatment (border, radius, hover lift,
+   * stretched link) so the two listings read as the same visual system.
+   * Trimmed down: no status/tags/badges, since posts don't carry them.
    */
-  .head {
+  .card {
+    position: relative;
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-m);
+    background: var(--color-surface);
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-3xs) var(--space-s);
+    flex-direction: column;
+    gap: var(--space-2xs);
+    transition:
+      border-color 0.15s ease,
+      transform 0.15s ease;
   }
 
-  .post-preview h3 {
-    font-size: var(--size-step-1);
-    color: var(--color-text);
+  /* Same "stretched link" trick as ProjectCard: one real link, whole card
+     clickable, no nested anchors. */
+  .card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    z-index: 1;
   }
-  .post-preview h3 a {
-    color: inherit;
+
+  .card:hover,
+  .card:focus-within {
+    border-color: var(--color-link);
+    transform: translateY(-2px);
+  }
+  .card:hover .card-title a,
+  .card:focus-within .card-title a {
+    color: var(--color-link);
+  }
+
+  .card-title {
+    font-size: var(--size-step-1);
+  }
+  .card-title a {
+    color: var(--color-text);
     text-decoration: none;
   }
-  .post-preview h3 a:hover {
-    color: var(--color-link);
+  .card-title a:hover {
     text-decoration: underline;
   }
-
-  .date {
-    font-size: var(--size-step--2);
-    color: var(--color-faint);
-    white-space: nowrap;
-  }
-
   .summary {
-    font-size: var(--size-step-0);
     color: var(--color-muted);
-    margin-top: var(--space-2xs);
+  }
+  .meta {
+    font-size: var(--size-step--1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      transition: border-color 0.15s ease;
+    }
+    .card:hover,
+    .card:focus-within {
+      transform: none;
+    }
   }
 </style>

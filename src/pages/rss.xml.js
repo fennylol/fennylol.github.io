@@ -5,7 +5,7 @@ import { site } from '../site.config';
 export async function GET(context) {
   const posts = await getPosts();
   return rss({
-    title: `${site.title} — Blog`,
+    title: `${site.title} — Write-ups`,
     description: site.description,
     site: context.site,
     items: posts.map((post) => ({

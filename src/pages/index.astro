@@ -40,7 +40,7 @@ const posts = (await getPosts()).slice(0, 3);
 
   {
     posts.length > 0 && (
-      <Section title="From the blog" moreHref="/blog" moreLabel="All posts">
+      <Section title="From the write-ups" moreHref="/blog" moreLabel="All posts">
         <div class="stack">
           {posts.map((post) => (
             <PostPreview post={post} />
