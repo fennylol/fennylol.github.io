@@ -24,7 +24,7 @@ const { title, subtitle, lede, summary, date, updated, tags = [], backHref, back
 
 <Base title={title} description={summary} type="article">
   <article class="stack">
-    <p><a href={backHref}>&larr; {backLabel}</a></p>
+    <p class="back-link"><a href={backHref}>&larr; {backLabel}</a></p>
     <header class="stack-s">
       <h1>{title}</h1>
       {(subtitle ?? lede) && <p class="subtitle muted">{subtitle ?? lede}</p>}
@@ -38,6 +38,27 @@ const { title, subtitle, lede, summary, date, updated, tags = [], backHref, back
 </Base>
 
 <style>
+  /* A little breathing room below the sticky site header, which otherwise
+     sits flush against this link at the top of the page. */
+  .back-link {
+    padding-top: var(--space-s);
+  }
+  .back-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--size-step--1);
+  }
+  .back-link a:hover {
+    border-color: var(--color-link);
+    color: var(--color-link);
+  }
   header {
     padding-bottom: var(--space-m);
     border-bottom: var(--border);

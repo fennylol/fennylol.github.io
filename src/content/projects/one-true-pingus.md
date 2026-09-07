@@ -8,7 +8,6 @@ status: completed :3
 source: https://github.com/fennylol/multi-player-coupler
 featured: true
 ---
-**NOTE: *To read about why and how this project was developed, read [this blog post](/blog/on-the-pingus).***
 
 A Godot utility for managing an arbitrary number of UDP connections as a
 pure, relay-server-free peer-to-peer mesh. Built directly on
@@ -29,8 +28,9 @@ timeout.
 ## NAT traversal
 
 Discovers its own external IP:port via STUN, allowing peers behind separate
-routers to connect without port forwarding — written with assistance from
-Claude Opus 4.8.
+routers to connect without port forwarding. The STUN client was written
+with AI assistance — see the [AI page](/ai) for what that means across
+this site.
 
 ## Public API
 
@@ -66,3 +66,7 @@ Claude Opus 4.8.
 - Support a host/client architecture mode as an alternative to the
   peer-to-peer mesh — still peer-to-peer, but with one peer designated as
   the dedicated host.
+
+The reasoning behind building a custom mesh instead of using Godot's
+built-in multiplayer API, and the STUN-based compromise this settled on,
+are covered in more depth in [a longer write-up](/blog/on-the-pingus).

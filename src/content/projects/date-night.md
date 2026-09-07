@@ -10,17 +10,28 @@ source: https://github.com/fennylol/datenight
 featured: false
 ---
 
-Your parents are out of the house for the evening, and you have the whole
-place to yourself! They'll be back in five hours, so it's up to you to see
-how much trouble you can get into before they get back. The clock is
-ticking, so don't get scared.
+*"Your parents are out of the house for the evening, and you have the whole place to yourself!*
+*They'll be back in five hours, so it's up to you to see how much trouble you can get into before they get back.*
+*The clock is ticking, so don't get scared."*
 
-The game doesn't pause — it ends when your parents get home.
+> ![Woke by the Storm and Home Alone](/images/date_night/awoken.png "Woke by the Storm and Home Alone")
+> Woke by the Storm and Home Alone
 
-**Controls:**
-- Move: WASD
-- Turn on lights: E or left mouse button
-- Toggle flashlight: Q or right mouse button
-- Free the mouse: Esc (the web build can't recapture it afterward)
+It is past your bedtime, your parents are still out enjoying their evening, and the storm woke you up.
+Maybe your mind is hearing things in the rain, or maybe there's someone else in the house.
 
-Built with PolytopeParty in Godot 4.7 for the 2026 GMTK Game Jam.
+> ![Finding Comfort by the Light](/images/date_night/comfort2.png "Finding Comfort by the Light")
+> Finding Comfort by the Light
+
+Turning a few lights on will make you feel safer.
+But you still cannot shake that feeling...
+
+> ![Home... Alone?](/images/date_night/gameplay_5c.png "Something in the distance")
+> Home... Alone?
+
+There are still a few hours before they are supposed to get back.
+Till then... what?
+
+Playable in browser or as an executable on Linux and Windows.
+Made together with [Polytope Party](http://polytope.party/) for the 2026 GMTK game jam.
+Built in 96 hours using Godot 4.7, with assets made in Blender, Aseprite, and Procreate.
