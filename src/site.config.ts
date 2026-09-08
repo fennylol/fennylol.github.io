@@ -9,15 +9,24 @@
 // - custom domain later:   https://yourdomain.com
 export const SITE_URL = 'https://github.com/fennylol';
 
+// The name, split into parts so Nav can style just the middle one — change
+// any of these three and every place the full name appears updates too.
+const firstName = 'Joshua';
+const highlight = '"fenny"'; // quotes included — Nav colors this whole span
+const lastName = 'Fenneran';
+const fullName = `${firstName} ${highlight} ${lastName}`;
+
 export const site = {
-  title: 'Joshua "fenny" Fenneran',
+  firstName,
+  highlight,
+  lastName,
+  title: fullName,
   // Short tagline used in <meta description> fallbacks and on the homepage.
   tagline: '',
   author: 'fennylol',
   url: SITE_URL,
   // Used by the RSS feed and OG tags.
-  description:
-    'Projects, writing, and a pile of links, by Joshua "fenny" Fenneran.',
+  description: `Projects, writing, and a pile of links, by ${fullName}.`,
   locale: 'en',
 };
 
@@ -27,9 +36,9 @@ export const nav: { label: string; href: string }[] = [
   { label: 'Projects', href: '/projects' },
   { label: 'Write-ups', href: '/blog' },
   { label: 'AI', href: '/ai' },
-  { label: 'Résumé', href: '/resume' },
   { label: 'Now', href: '/now' },
   { label: 'Links', href: '/links' },
+  { label: 'Résumé', href: '/resume' },
 ];
 
 /** Footer links — the "find me elsewhere" row. */

@@ -26,12 +26,11 @@ const { Content } = await render(project);
   date={data.date}
   updated={data.updated}
   tags={data.tags}
+  status={data.status}
   backHref="/projects"
   backLabel="All projects"
 >
-  <div class="project-links">
-    <ProjectBadges project={project} />
-  </div>
+  <ProjectBadges project={project} slot="badges" />
 
   {
     /* Only worth its own card when at least one download is a direct,
@@ -63,11 +62,6 @@ const { Content } = await render(project);
 </Post>
 
 <style>
-  .project-links {
-    padding: var(--space-s) 0;
-    margin-bottom: var(--space-m);
-    border-bottom: var(--border);
-  }
   .downloads {
     border: var(--border);
     border-radius: var(--radius);

@@ -33,6 +33,29 @@ const { title, description, type, wide = false } = Astro.props;
         } catch (e) {}
       })();
     </script>
+    {/* --color-accent (mauve by default) gets re-rolled to one of the nav
+        hues on every full page load, never repeating the last one — this
+        is what recolors "fenny", the featured-project star, focus rings,
+        and every other accent-colored bit of the site together. Runs here,
+        pre-paint, so none of that flashes the default color first. */}
+    <script is:inline>
+      (() => {
+        const NAV_COLOR_COUNT = 7;
+        const STORAGE_KEY = 'accent-color-index';
+        try {
+          let last = Number(sessionStorage.getItem(STORAGE_KEY)) || null;
+          const choices = Array.from({ length: NAV_COLOR_COUNT }, (_, i) => i + 1).filter(
+            (n) => n !== last,
+          );
+          const n = choices[Math.floor(Math.random() * choices.length)];
+          document.documentElement.style.setProperty(
+            '--color-accent',
+            `var(--color-nav-${n})`,
+          );
+          sessionStorage.setItem(STORAGE_KEY, String(n));
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>

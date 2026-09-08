@@ -6,11 +6,14 @@ import ThemeToggle from './ThemeToggle.astro';
 const here = '/' + (Astro.url.pathname.split('/').filter(Boolean)[0] ?? '');
 const isCurrent = (href: string) =>
   href === '/' ? Astro.url.pathname === '/' : href === here;
+
 ---
 
 <header class="site-header">
   <div class="wrap wrap--wide bar">
-    <a href="/" class="brand">{site.title}</a>
+    <a href="/" class="brand">
+      {site.firstName} <span class="nickname">{site.highlight}</span> {site.lastName}
+    </a>
     <div class="bar-end">
       <nav aria-label="Primary">
         <ul>
@@ -92,4 +95,11 @@ const isCurrent = (href: string) =>
   nav li:nth-child(7n + 5) a { --tone: var(--color-nav-5); }
   nav li:nth-child(7n + 6) a { --tone: var(--color-nav-6); }
   nav li:nth-child(7n + 7) a { --tone: var(--color-nav-7); }
+
+  /* Rides the site's accent color, which Base.astro re-rolls to a random
+     nav hue on every page load — so "fenny" changes color along with every
+     other accent-colored element on the page, not on its own. */
+  .nickname {
+    color: var(--color-accent);
+  }
 </style>

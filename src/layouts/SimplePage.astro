@@ -1,0 +1,57 @@
+---
+import Base from './Base.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+/**
+ * Shared shell for simple, mostly-prose pages (/now, /links, /ai) that are
+ * written as plain Markdown files in src/pages/ with `layout:` frontmatter
+ * pointing here. Astro nests a Markdown page's frontmatter under a single
+ * `frontmatter` prop rather than flattening it onto Astro.props directly.
+ */
+interface Frontmatter {
+  title: string;
+  description?: string;
+  /** Short line shown under the H1, above the Markdown content. */
+  intro?: string;
+  /** Appends "Last updated <date>" after the intro — for a /now-style page. */
+  updated?: Date | string;
+}
+interface Props {
+  frontmatter: Frontmatter;
+}
+const { title, description, intro, updated } = Astro.props.frontmatter;
+const updatedDate = updated ? new Date(updated) : undefined;
+---
+
+<Base title={title} description={description}>
+  <header class="stack-s page-head">
+    <h1>{title}</h1>
+    {
+      (intro || updatedDate) && (
+        <p class="muted">
+          {intro}
+          {updatedDate && (
+            <>
+              {intro && ' '}Last updated <FormattedDate date={updatedDate} />.
+            </>
+          )}
+        </p>
+      )
+    }
+  </header>
+
+  <div class="prose">
+    <slot />
+  </div>
+</Base>
+
+<style>
+  .page-head {
+    padding-top: var(--space-l);
+    padding-bottom: var(--space-m);
+    /* Same treatment as Post.astro's header divider — ties these pages into
+       the site's shifting accent color too. */
+    border-bottom: 1px solid var(--color-accent);
+    margin-bottom: var(--space-l);
+  }
+</style>

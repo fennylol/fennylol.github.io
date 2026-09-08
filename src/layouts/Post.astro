@@ -14,12 +14,25 @@ interface Props {
   date: Date;
   updated?: Date;
   tags?: string[];
+  /** Project lifecycle badge, e.g. "completed :3" — projects only. Shown in
+   *  the site's accent color, same as the card's status badge. */
+  status?: string;
   /** Back-link target, e.g. "/blog" or "/projects". */
   backHref: string;
   backLabel: string;
 }
-const { title, subtitle, lede, summary, date, updated, tags = [], backHref, backLabel } =
-  Astro.props;
+const {
+  title,
+  subtitle,
+  lede,
+  summary,
+  date,
+  updated,
+  tags = [],
+  status,
+  backHref,
+  backLabel,
+} = Astro.props;
 ---
 
 <Base title={title} description={summary} type="article">
@@ -28,8 +41,12 @@ const { title, subtitle, lede, summary, date, updated, tags = [], backHref, back
     <header class="stack-s">
       <h1>{title}</h1>
       {(subtitle ?? lede) && <p class="subtitle muted">{subtitle ?? lede}</p>}
-      <p class="muted"><FormattedDate date={date} updated={updated} /></p>
+      <p class="muted">
+        <FormattedDate date={date} updated={updated} />
+        {status && <span class="status">{status}</span>}
+      </p>
       <TagList tags={tags} />
+      <slot name="badges" />
     </header>
     <div class="prose">
       <slot />
@@ -61,10 +78,21 @@ const { title, subtitle, lede, summary, date, updated, tags = [], backHref, back
   }
   header {
     padding-bottom: var(--space-m);
-    border-bottom: var(--border);
+    /* Recolors the existing divider rather than adding a new element — ties
+       every project/write-up page into the site's shifting accent color. */
+    border-bottom: 1px solid var(--color-accent);
   }
   .subtitle {
     font-size: var(--size-step-1);
     line-height: 1.3;
+  }
+  /* Matches ProjectCard's status badge — same treatment, now also shown on
+     the project's own page, not just its listing card. */
+  .status {
+    margin-left: var(--space-s);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.85em;
+    color: var(--color-accent);
   }
 </style>

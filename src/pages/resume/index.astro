@@ -158,8 +158,10 @@ import { site } from '../../site.config';
     background: color-mix(in oklab, var(--tone) 22%, transparent);
     border-color: color-mix(in oklab, var(--tone) 70%, transparent);
   }
-  .actions button[data-tone="pdf"] { --tone: var(--color-badge-download); }
-  .actions button[data-tone="edit"] { --tone: var(--color-accent); }
-  .actions button[data-tone="full"] { --tone: var(--color-badge-live); }
-  .actions button[data-tone="copy"] { --tone: var(--color-action-copy); }
+  /* Fixed nav hues, not --color-accent — these buttons keep their identity
+     across reloads instead of shifting with the rest of the site. */
+  .actions button[data-tone="pdf"] { --tone: var(--color-nav-3); } /* green */
+  .actions button[data-tone="edit"] { --tone: var(--color-nav-7); } /* mauve — was tied to --color-accent, now fixed at its old default */
+  .actions button[data-tone="full"] { --tone: var(--color-nav-5); } /* pink */
+  .actions button[data-tone="copy"] { --tone: var(--color-nav-1); } /* sapphire/blue */
 </style>

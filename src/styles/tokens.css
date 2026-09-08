@@ -150,7 +150,7 @@
     --color-dot-1: var(--latte-red);
     --color-dot-2: var(--latte-yellow);
     --color-dot-3: var(--latte-green);
-    --color-dot-4: var(--latte-blue);
+    --color-dot-4: var(--latte-sapphire);
     --color-dot-5: var(--latte-mauve);
 
   color-scheme: light;
@@ -191,7 +191,7 @@
   --color-dot-1: var(--mocha-red);
   --color-dot-2: var(--mocha-yellow);
   --color-dot-3: var(--mocha-green);
-  --color-dot-4: var(--mocha-blue);
+  --color-dot-4: var(--mocha-sapphire);
   --color-dot-5: var(--mocha-mauve);
 
   color-scheme: dark;
@@ -236,7 +236,7 @@
     --color-dot-1: var(--mocha-red);
     --color-dot-2: var(--mocha-yellow);
     --color-dot-3: var(--mocha-green);
-    --color-dot-4: var(--mocha-blue);
+    --color-dot-4: var(--mocha-sapphire);
     --color-dot-5: var(--mocha-mauve);
 
     color-scheme: dark;
