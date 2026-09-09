@@ -12,7 +12,7 @@ export const SITE_URL = 'https://github.com/fennylol';
 // The name, split into parts so Nav can style just the middle one — change
 // any of these three and every place the full name appears updates too.
 const firstName = 'Joshua';
-const highlight = '"fenny"'; // quotes included — Nav colors this whole span
+const highlight = '"fenny"';
 const lastName = 'Fenneran';
 const fullName = `${firstName} ${highlight} ${lastName}`;
 

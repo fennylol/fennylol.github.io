@@ -13,7 +13,7 @@ interface Frontmatter {
   description?: string;
   /** Short line shown under the H1, above the Markdown content. */
   intro?: string;
-  /** Appends "Last updated <date>" after the intro — for a /now-style page. */
+  /** Adds a small italic "Last updated <date>" line below the intro. */
   updated?: Date | string;
 }
 interface Props {
@@ -26,15 +26,11 @@ const updatedDate = updated ? new Date(updated) : undefined;
 <Base title={title} description={description}>
   <header class="stack-s page-head">
     <h1>{title}</h1>
+    {intro && <p class="muted">{intro}</p>}
     {
-      (intro || updatedDate) && (
-        <p class="muted">
-          {intro}
-          {updatedDate && (
-            <>
-              {intro && ' '}Last updated <FormattedDate date={updatedDate} />.
-            </>
-          )}
+      updatedDate && (
+        <p class="muted updated">
+          Last updated <FormattedDate date={updatedDate} />.
         </p>
       )
     }
@@ -53,5 +49,9 @@ const updatedDate = updated ? new Date(updated) : undefined;
        the site's shifting accent color too. */
     border-bottom: 1px solid var(--color-accent);
     margin-bottom: var(--space-l);
+  }
+  .updated {
+    font-size: var(--size-step--2);
+    font-style: italic;
   }
 </style>
