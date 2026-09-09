@@ -3,6 +3,7 @@ layout: ../layouts/SimplePage.astro
 title: Links
 description: Anything offsite I think is worth pointing at.
 intro: Anything offsite I think is worth pointing at.
+updated: 2026-09-07
 ---
 ## other works
 - [GitHub](https://github.com/fennylol) — idek if any repos are public if I'm honest

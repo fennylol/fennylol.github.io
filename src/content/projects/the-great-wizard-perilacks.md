@@ -1,7 +1,7 @@
 ---
 title: The Great Wizard Perilacks
 subtitle: and the Tower He Intends to Build
-summary: A Perspective Puzzle Platformer with 10 levels. Made for 2026 Bigmode Game Jam. 
+summary: A Perspective Puzzle Platformer with 10 levels. Made for 2026 BigMode Game Jam. 
 date: 2026-08-01
 tags: [Game Jam, GDScript, Godot, Open Source, Website, Linux Executable, Windows Executable]
 genai: none
@@ -21,20 +21,20 @@ favorite: true
 The Great Wizard Perilacks is a puzzle platformer about building a tower.
 Circle the walls of the tower as you climb each of the 10 levels.
 Collect the magic crystal at the end to complete the level!
-You pick up blocks where you find them and set them down where you need a step, a bridge, or a wall.
+Pick up blocks where and set them down where a step, a bridge, or a wall is needed.
 The route is never fully laid out; this tower is still under construction, after all.
 
 > ![The Crystal and the Coin](/images/the_great_wizard_perilacks/gameplay_0.png "The Crystal and the Coin")
 > The Crystal and the Coin
 
 Every level also hides a coin, tucked off the obvious route.
-Each coin on the way requires choosing your path and using your resources more carefully than simply reaching the exit.
+Each coin on the way requires choosing your path and using your resources more carefully than simply reaching the exit would.
 
 > ![An apparently inescapable pit](/images/the_great_wizard_perilacks/gameplay_1.png "An apparently inescapable pit")
 > An apparently inescapable pit
 
-The greatest magic trick The Great Wizard can perform is perspective!
-You learn to read the tower's wall from different angles, and the thing that looks out of reach is often exactly the thing you needed...
+The greatest magic trick the Great Wizard can perform is perspective!
+You learn to read the tower's wall from different angles, and the thing that looks out of reach is often exactly the thing you needed.
 
 > ![A previously unreachable platform](/images/the_great_wizard_perilacks/gameplay_2.png "A previously unreachable platform")
 > A previously unreachable platform
