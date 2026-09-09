@@ -16,14 +16,12 @@ I view programming a bit like a magic show; every time I learn a new trick, patt
 Multiplayer networking was the most exciting little trick I had encountered in a while.
 
 ## What is interesting about multiplayer?
----
 The unique challenge posed by managing multiple people playing a game together is that each player's game instance must be kept in sync with every other player's in order to maintain the illusion.
 Any time a player makes an action, their local machine handles the player character taking that action, then asks every peer in the network to replicate that action on the local entity that represents the acting player. 
 There must be some system that facilitates the communication of local actions into the network, and listens for and handles incoming remote actions from the network. 
 That system is the tool in your bag of tricks that keeps the multiplayer illusion alive.
 
 ## Why make your own?
----
 My initial motivation for this project was two-fold: it seemed fun, and it filled a gap my brother and I found with Godot's native multiplayer Framework, which could only ever satisfy any 2 of our 3 major requirements:
 1. **Purely peer-to-peer**
 
@@ -39,7 +37,6 @@ My initial motivation for this project was two-fold: it seemed fun, and it fille
 Rolling our own net-code seemed to provide both an engaging challenge and an exciting opportunity to custom tailor a utility to our specific needs.
 
 ## The Pingus
----
 Initially, `OneTruePingus` began as an even simpler idea than a multiplayer synchronizer: a pure peer-to-peer NAT traverser; the humble `Pingus`.
 The first problem any networking code needs to solve is the residential NAT: home routers only allow traffic in that is responding to traffic that originated from inside the network.
 Meaning to establish a connection between two peers, both have to be the "first one to talk". 
@@ -58,7 +55,6 @@ The next step was to take it to the real internet, and it worked perfectly!
 My brother (who lived in Ohio) and I (in New York) could establish a connection without our computers knowing what external port our routers had mapped!
 
 ## The PingusPrime
----
 It was at this point we realized the potential: if we could establish a connection, it would take only a slight bit of modification and extension to put it to use.
 Thus was born the `PingusPrime`.
 The user's application would provide the data encoded as raw binary and the data type as an `enum`, and the `PingusPrime` would handle sending it over the network.
@@ -70,7 +66,6 @@ For slower connections, sending 6,000 packets per second would consume the entir
 Perhaps some reworking was in order.
 
 ## The OneTruePingus
----
 Our first attempt to remedy the situation was to lower the spray speed, but there was a balance that must be maintained: too fast, and you overwhelm the router; too slow, and connection attempts stretch for minutes.
 Either extreme is fatal.
 A network with N peers is `N(N-1)/2` total connections.
@@ -82,7 +77,6 @@ This was, in a way, frankly an improvement in terms of our first requirement.
 Now instead of relying on a single service to provide our network address, we now have any valid STUN server in the world available to us.
 
 ## How it Works
----
 Under normal operating conditions, `OneTruePingus` will query [a github project](https://github.com/pradt2/always-online-stun.git) that returns a random STUN server address.
 The `OneTruePingus` can now be provided with an arbitrary number of address/port targets. 
 The `OneTruePingus` creates a `PingusPeer` object to track each connection. 
@@ -93,7 +87,6 @@ The application is responsible for both encoding and decoding the data to/from b
 
 
 ## Edge Cases
----
 1. **What if the STUN server repo goes offline?**
 
     To ensure longevity, we offer the ability to target a specific STUN server in the event pradt2's github project goes offline.
@@ -108,7 +101,6 @@ The application is responsible for both encoding and decoding the data to/from b
     If a `PingusPeer` is `INFORMING` and receives a `TWO_GENERALS`, it knows its peer is already `CONNECTED` and it is safe to also transition to `CONNECTED`.
 
 ## Future Work
----
 Although the `OneTruePingus` is fully functional in its current state, there are a few key issues I plan to address.
 As it stands, each peer is connected to every other peer directly; when a new player connects to the network, all existing peers are informed of the new address and port so they may begin establishing a connection.
 Unfortunately, this presents a fatal issue with networks that span both LAN and WAN. 

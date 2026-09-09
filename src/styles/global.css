@@ -207,6 +207,10 @@ main.wrap {
 .prose h3 {
   margin-top: var(--space-xl);
 }
+.prose h2 {
+  padding-bottom: var(--space-3xs);
+  border-bottom: 1px solid var(--color-accent);
+}
 .prose h2 + *,
 .prose h3 + * {
   margin-top: var(--space-s);
