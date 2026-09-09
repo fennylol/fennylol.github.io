@@ -103,9 +103,10 @@ export const skillGroups: SkillGroup[] = [
   {
     category: 'Languages',
     skills: [
-      { id: 'c', name: 'C', comfort: 'advanced' },
-      { id: 'cpp', name: 'C++', comfort: 'advanced' },
-      { id: 'asm', name: 'x86 Assembly', comfort: 'proficient' },
+      { id: 'c', name: 'C', comfort: 'advanced', note: 'at IBM'},
+      { id: 'cpp', name: 'C++', comfort: 'advanced', note: 'at IBM' },
+      { id: 'tcl', name: 'TCL', comfort: 'proficient', note: 'at IBM' },
+      { id: 'asm', name: 'x86 Assembly', comfort: 'working' },
       { id: 'csharp', name: 'C#', comfort: 'working' },
       { id: 'java', name: 'Java', comfort: 'familiar' },
       { id: 'python', name: 'Python', comfort: 'proficient' },
@@ -248,4 +249,5 @@ export const resumeProjects: { slug: string; highlights?: string[] }[] = [
   { slug: 'meander' },
   { slug: 'the-juice-factory' },
   { slug: 'fennylol-portfolio' },
+  { slug: 'mano-machine' },
 ];
