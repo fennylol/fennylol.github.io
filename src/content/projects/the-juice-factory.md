@@ -7,7 +7,7 @@ genai: none
 status: completed :3
 link: https://polytopeparty.itch.io/the-juice-factory
 source: https://github.com/fennylol/juice_time
-featured: false
+favorite: false
 ---
 
 *"The juice is ready to go! Fill bottles and mix colors in the right proportions to succeed.*

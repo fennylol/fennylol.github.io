@@ -3,6 +3,7 @@ title: On the Pingus
 summary: The reason and reasoning behind implementing custom multiplayer net-code.
 date: 2026-09-01
 tags: []
+favorite: true
 draft: false
 ---
 

@@ -6,10 +6,21 @@ import PostPreview from '../components/PostPreview.astro';
 import { getProjects, getPosts } from '../lib/content';
 import { site } from '../site.config';
 
+const HIGHLIGHT_COUNT = 3;
+
+// Favorites first (in their existing newest-first order), then fill any
+// remaining slots with the next most recent non-favorites.
+function highlights<T extends { data: { favorite: boolean } }>(items: T[]): T[] {
+  const favorites = items.filter((i) => i.data.favorite);
+  const rest = items.filter((i) => !i.data.favorite);
+  return [...favorites, ...rest].slice(0, HIGHLIGHT_COUNT);
+}
+
 const projects = await getProjects();
-const featured = projects.filter((p) => p.data.featured).slice(0, 3);
-const showcase = featured.length ? featured : projects.slice(0, 3);
-const posts = (await getPosts()).slice(0, 3);
+const showcase = highlights(projects);
+
+const allPosts = await getPosts();
+const posts = highlights(allPosts);
 ---
 
 <Base wide>
@@ -27,7 +38,7 @@ const posts = (await getPosts()).slice(0, 3);
         title="Selected projects"
         moreHref="/projects"
         moreLabel="All projects"
-        id="featured"
+        id="favorites"
       >
         <div class="grid">
           {showcase.map((project) => (

@@ -7,24 +7,32 @@ interface Props {
 }
 const { post } = Astro.props;
 const { data, id } = post;
+
+// Estimated at ~200 words/minute off the raw Markdown source — close enough
+// for a rough "how long is this" signal, and needs no authoring per post.
+const wordCount = post.body?.trim().split(/\s+/).filter(Boolean).length ?? 0;
+const readingMinutes = Math.max(1, Math.round(wordCount / 200));
 ---
 
 <article class="card">
   <h3 class="card-title">
     {/* The whole card is clickable via this link's stretched ::after. */}
     <a class="card-link" href={`/blog/${id}`}>{data.title}</a>
+    {data.favorite && <span class="badge" title="Favorite">★</span>}
   </h3>
   <p class="summary">{data.summary}</p>
   <div class="meta muted">
     <FormattedDate date={data.date} />
+    <span class="reading-time">{readingMinutes} min read</span>
   </div>
 </article>
 
 <style>
   /*
    * Mirrors ProjectCard's card treatment (border, radius, hover lift,
-   * stretched link) so the two listings read as the same visual system.
-   * Trimmed down: no status/tags/badges, since posts don't carry them.
+   * stretched link, favorite star) so the two listings read as the same
+   * visual system. Still trimmed down from ProjectCard: no tags or link
+   * badges, since posts don't carry those.
    */
   .card {
     position: relative;
@@ -70,11 +78,29 @@ const { data, id } = post;
   .card-title a:hover {
     text-decoration: underline;
   }
+  .badge {
+    color: var(--color-accent);
+    font-size: 0.8em;
+    /* Above the overlay so its title tooltip still appears on hover. */
+    position: relative;
+    z-index: 2;
+  }
   .summary {
     color: var(--color-muted);
   }
   .meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
     font-size: var(--size-step--1);
+  }
+  /* Same treatment as ProjectCard's status badge — one accent color for
+     every value, same as "completed"/"live"/etc. all render identically. */
+  .reading-time {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.85em;
+    color: var(--color-accent);
   }
   @media (prefers-reduced-motion: reduce) {
     .card {

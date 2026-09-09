@@ -8,7 +8,7 @@ genai: used
 status: live :O
 link: /
 source: https://github.com/fennylol/fennylol
-featured: false
+favorite: false
 ---
 
 

@@ -6,7 +6,7 @@ tags: [Personal Project, GDScript, Godot, Open Source, Linux Executable, Windows
 genai: none
 status: in development :]
 source: https://github.com/fennylol/tournamancy
-featured: false
+favorite: false
 ---
 
 Tournamancy is a multiplayer first-person shooter about wizards knocking

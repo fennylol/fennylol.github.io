@@ -6,7 +6,7 @@ tags: [Academic Project, C, ASM, Open Source]
 genai: none
 status: completed :3
 source: https://github.com/jacobobendrado/4810-Operating-System
-featured: true
+favorite: true
 ---
 
 shompOS is a small 32-bit x86 operating system, written from scratch in C and a little assembly for a university operating systems course.

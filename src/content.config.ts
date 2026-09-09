@@ -55,7 +55,7 @@ const projects = defineCollection({
       )
       .default([]),
     // Pin to the top of listings / show on the homepage.
-    featured: z.boolean().default(false),
+    favorite: z.boolean().default(false),
     // Hide from the built site without deleting the file.
     hidden: z.boolean().default(false),
   }),
@@ -75,6 +75,8 @@ const blog = defineCollection({
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
+    // Pin to the top of the write-ups list / show on the homepage.
+    favorite: z.boolean().default(false),
     hidden: z.boolean().default(false),
   }),
 });

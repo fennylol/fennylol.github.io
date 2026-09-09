@@ -5,8 +5,8 @@ import TagList from '../../components/TagList.astro';
 import { getProjects } from '../../lib/content';
 
 const projects = await getProjects();
-// Featured first, then by date (getProjects already sorted by date).
-projects.sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+// Favorites first, then by date (getProjects already sorted by date).
+projects.sort((a, b) => Number(b.data.favorite) - Number(a.data.favorite));
 
 const tags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
 ---
@@ -34,6 +34,9 @@ const tags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
 <style>
   .page-head {
     padding-block: var(--space-l);
+    /* Same divider treatment as every other page-head on the site. */
+    border-bottom: 1px solid var(--color-accent);
+    margin-bottom: var(--space-l);
   }
   .grid {
     display: grid;
@@ -74,7 +77,7 @@ const tags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
       const tags: string[] = JSON.parse(card.dataset.tags ?? '[]');
       const matchCount = tags.filter((t) => selected.has(t)).length;
       // Lower tier sorts first. Original index as a tiebreak preserves the
-      // page's existing order (featured, then newest) within a tier.
+      // page's existing order (favorites, then newest) within a tier.
       const tier = n - matchCount;
       card.style.order = String(tier * 1000 + i);
       const brightness =

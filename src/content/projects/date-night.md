@@ -7,7 +7,7 @@ genai: none
 status: completed :3
 link: https://polytopeparty.itch.io/date-night
 source: https://github.com/fennylol/datenight
-featured: false
+favorite: false
 ---
 
 *"Your parents are out of the house for the evening, and you have the whole place to yourself!*

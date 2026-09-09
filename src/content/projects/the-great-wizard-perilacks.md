@@ -8,7 +8,7 @@ genai: none
 status: completed :3
 link: https://polytopeparty.itch.io/perilacks
 source: https://github.com/fennylol/cycloparallax
-featured: true
+favorite: true
 ---
 
 *"You are the Great Wizard Perilacks and you wish to build yourself a Tower.*

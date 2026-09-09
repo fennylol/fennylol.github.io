@@ -4,6 +4,8 @@ import PostPreview from '../../components/PostPreview.astro';
 import { getPosts } from '../../lib/content';
 
 const posts = await getPosts();
+// Favorites first, then by date (getPosts already sorted by date).
+posts.sort((a, b) => Number(b.data.favorite) - Number(a.data.favorite));
 ---
 
 <Base title="Write-ups" description="Notes and writing.">
@@ -43,6 +45,9 @@ const posts = await getPosts();
 <style>
   .page-head {
     padding-block: var(--space-l);
+    /* Same divider treatment as every other page-head on the site. */
+    border-bottom: 1px solid var(--color-accent);
+    margin-bottom: var(--space-l);
   }
 
   /* Borrows the "No GenAI" badge's tone so the blog-wide claim and the

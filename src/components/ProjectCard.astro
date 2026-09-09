@@ -15,7 +15,7 @@ const { data, id } = project;
   <h3 class="card-title">
     {/* The whole card is clickable via this link's stretched ::after. */}
     <a class="card-link" href={`/projects/${id}`}>{data.title}</a>
-    {data.featured && <span class="badge" title="Featured">★</span>}
+    {data.favorite && <span class="badge" title="Favorite">★</span>}
   </h3>
   {data.subtitle && <p class="card-subtitle muted">{data.subtitle}</p>}
   <p class="summary">{data.summary}</p>

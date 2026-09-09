@@ -11,7 +11,7 @@ downloads:
   - label: Download
     href: https://fennylol.itch.io/meander
     note: via itch.io
-featured: false
+favorite: false
 ---
 
 *"Enjoy a quiet, relaxing walk around the Escalier Wetlands Trail, which will reward you with beautiful lakeside vistas and tranquil forest landscapes.*
