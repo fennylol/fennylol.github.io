@@ -1,6 +1,6 @@
 ---
 title: shompOS
-summary: A 32-bit x86 based operating system built from scratch. 
+summary: A 32-bit x86 based operating system built from scratch.
 date: 2025-04-25
 tags: [Academic Project, C, ASM, Open Source]
 genai: none
@@ -35,8 +35,8 @@ Process control blocks, context switching in assembly, and preemption driven by 
 Processes clean themselves up on exit and free their own memory, and a PID 0 "backstop" process runs when nothing else can, so the scheduler always has something to switch to.
 
 > ![Running rudimentary processes concurrently](/images/shompOS/processes.png "Running rudimentary processes concurrently")
-> Two processes running concurrently. The first of these rudimentary (the right column) counts up from 0x00 to 0xFF, changing text color every number and background color every 0x10 numbers. The second (the left column) merely prints color bands along the side of the screen. \
-> The terminal remains responsive as it, and the two processes trade share time on the CPU.
+> Two rudimentary processes running concurrently. The first (the right column) counts up from 0x00 to 0xFF, changing text color every number and background color every 0x10 numbers. The second (the left column) prints color bands along the side of the screen. \
+> The terminal stays responsive while it and the two processes share time on the CPU.
 
 
 ## The rest

@@ -35,8 +35,6 @@ The creatures...
 > ![A Serene River](/images/meander/meander_screenshot_4.png "A Serene River")
 > A Serene River
 
-
-
 Playable as an executable on Linux and Windows.
 Made together with [Polytope Party](http://polytope.party/) for the 2025 GMTK Game Jam.
 Built in 36 hours using Godot 4.4, with assets made in Blender, Aseprite, and Procreate.
