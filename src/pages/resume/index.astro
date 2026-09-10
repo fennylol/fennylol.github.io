@@ -158,6 +158,36 @@ import { site } from '../../site.config';
     background: color-mix(in oklab, var(--tone) 22%, transparent);
     border-color: color-mix(in oklab, var(--tone) 70%, transparent);
   }
+  /* Phone widths: the buttons share one row equally instead of wrapping
+     one by one. The script removes buttons that don't apply, so the row
+     holds one to three of them; only a tailored link (?r=) shows all four,
+     and four don't fit a phone row at a readable size, so that case
+     becomes a two-by-two grid. The copied-link status gets its own line. */
+  @media (max-width: 30rem) {
+    .actions {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      gap: var(--space-xs);
+    }
+    .actions:has(#full-resume) {
+      grid-auto-flow: row;
+      grid-template-columns: 1fr 1fr;
+    }
+    .actions button {
+      padding: var(--space-2xs) var(--space-xs);
+      font-size: var(--size-step--1);
+      white-space: nowrap;
+      text-align: center;
+    }
+    .actions #copy-status {
+      grid-row: 2;
+      grid-column: 1 / -1;
+    }
+    .actions:has(#full-resume) #copy-status {
+      grid-row: auto;
+    }
+  }
   /* Fixed nav hues, not --color-accent — these buttons keep their identity
      across reloads instead of shifting with the rest of the site. */
   .actions button[data-tone="pdf"] { --tone: var(--color-nav-3); } /* green */
