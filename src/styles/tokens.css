@@ -139,13 +139,13 @@
      hover/current, so at rest the ribbon stays --color-muted like before.
      Ordered by hue angle so the ribbon reads as a left-to-right sweep
      rather than jumping around the color wheel. */
-  --color-nav-1: var(--latte-sapphire);
-  --color-nav-2: var(--latte-teal);
-  --color-nav-3: var(--latte-green);
-  --color-nav-4: var(--latte-yellow);
-  --color-nav-5: var(--latte-pink);
-  --color-nav-6: var(--latte-red);
-  --color-nav-7: var(--latte-mauve);
+  --color-accent-1: var(--latte-sapphire);
+  --color-accent-2: var(--latte-teal);
+  --color-accent-3: var(--latte-green);
+  --color-accent-4: var(--latte-yellow);
+  --color-accent-5: var(--latte-pink);
+  --color-accent-6: var(--latte-red);
+  --color-accent-7: var(--latte-mauve);
 
   /* Comfort-meter dot colors, keyed by rank (1 = Familiar .. 5 = Expert) —
      every filled dot in a meter shares its skill's rank color. Purple to
@@ -184,13 +184,13 @@
   --color-badge-ai-major: var(--mocha-red);
   --color-action-copy: var(--mocha-pink);
 
-  --color-nav-1: var(--mocha-sapphire);
-  --color-nav-2: var(--mocha-teal);
-  --color-nav-3: var(--mocha-green);
-  --color-nav-4: var(--mocha-yellow);
-  --color-nav-5: var(--mocha-pink);
-  --color-nav-6: var(--mocha-red);
-  --color-nav-7: var(--mocha-mauve);
+  --color-accent-1: var(--mocha-sapphire);
+  --color-accent-2: var(--mocha-teal);
+  --color-accent-3: var(--mocha-green);
+  --color-accent-4: var(--mocha-yellow);
+  --color-accent-5: var(--mocha-pink);
+  --color-accent-6: var(--mocha-red);
+  --color-accent-7: var(--mocha-mauve);
 
   --color-dot-1: var(--mocha-red);
   --color-dot-2: var(--mocha-yellow);
@@ -230,13 +230,13 @@
     --color-badge-ai-major: var(--mocha-red);
     --color-action-copy: var(--mocha-pink);
 
-    --color-nav-1: var(--mocha-sapphire);
-    --color-nav-2: var(--mocha-teal);
-    --color-nav-3: var(--mocha-green);
-    --color-nav-4: var(--mocha-yellow);
-    --color-nav-5: var(--mocha-pink);
-    --color-nav-6: var(--mocha-red);
-    --color-nav-7: var(--mocha-mauve);
+    --color-accent-1: var(--mocha-sapphire);
+    --color-accent-2: var(--mocha-teal);
+    --color-accent-3: var(--mocha-green);
+    --color-accent-4: var(--mocha-yellow);
+    --color-accent-5: var(--mocha-pink);
+    --color-accent-6: var(--mocha-red);
+    --color-accent-7: var(--mocha-mauve);
 
     --color-dot-1: var(--mocha-red);
     --color-dot-2: var(--mocha-yellow);
