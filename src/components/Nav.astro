@@ -103,4 +103,41 @@ const isCurrent = (href: string) =>
   .nickname {
     color: var(--color-accent);
   }
+
+  /* Phone widths: a fixed two-row header instead of free-wrapping. Row one
+     is the name and the theme toggle; row two is the tab ribbon, which
+     scrolls sideways if it ever overflows rather than breaking onto a
+     third line. `display: contents` lets the toggle and nav sit directly
+     in the grid without changing the markup. */
+  @media (max-width: 40rem) {
+    .bar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      row-gap: var(--space-2xs);
+    }
+    .bar-end {
+      display: contents;
+    }
+    nav {
+      grid-column: 1 / -1;
+      /* Bleed to the viewport edge so scrolled tabs aren't clipped at the
+         wrap's padding, then pad back in so the first tab still aligns. */
+      margin-inline: calc(-1 * var(--space-s));
+      padding-inline: var(--space-s);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+    nav ul {
+      flex-wrap: nowrap;
+      gap: var(--space-xs);
+      font-size: var(--size-step--1);
+    }
+    nav a {
+      white-space: nowrap;
+    }
+  }
 </style>
