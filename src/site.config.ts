@@ -26,7 +26,7 @@ export const site = {
   author: 'fennylol',
   url: SITE_URL,
   // Used by OG tags.
-  description: `Projects, writing, and a pile of links, by ${fullName}.`,
+  description: `Personal website and portfolio of ${fullName}.`,
   locale: 'en',
 };
 
