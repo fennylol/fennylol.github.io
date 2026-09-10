@@ -125,12 +125,12 @@
   /* Badge hues. Cool tones for the link badges, traffic-light tones for the
      GenAI disclosure. Badges tint these for their background/border and use
      them for the icon; the label stays --color-text so it's always legible. */
-  --color-badge-live: var(--latte-sky);
-  --color-badge-source: var(--latte-mauve);
+  --color-badge-live    : var(--latte-sky);
+  --color-badge-source  : var(--latte-mauve);
   --color-badge-download: var(--latte-teal);
-  --color-badge-ai-none: var(--latte-green);
-  --color-badge-ai-some: var(--latte-yellow);
-  --color-badge-ai-used: var(--latte-peach);
+  --color-badge-ai-none : var(--latte-green);
+  --color-badge-ai-minor: var(--latte-yellow);
+  --color-badge-ai-major: var(--latte-red);
   /* No existing badge hue fits "copy/share" without borrowing GenAI's
      meaning, so this one's a dedicated tone. */
   --color-action-copy: var(--latte-pink);
@@ -176,12 +176,12 @@
   --color-accent: var(--mocha-mauve);
   --color-code-bg: var(--mocha-mantle);
 
-  --color-badge-live: var(--mocha-sky);
-  --color-badge-source: var(--mocha-mauve);
+  --color-badge-live    : var(--mocha-sky);
+  --color-badge-source  : var(--mocha-mauve);
   --color-badge-download: var(--mocha-teal);
-  --color-badge-ai-none: var(--mocha-green);
-  --color-badge-ai-some: var(--mocha-yellow);
-  --color-badge-ai-used: var(--mocha-peach);
+  --color-badge-ai-none : var(--mocha-green);
+  --color-badge-ai-minor: var(--mocha-yellow);
+  --color-badge-ai-major: var(--mocha-red);
   --color-action-copy: var(--mocha-pink);
 
   --color-nav-1: var(--mocha-sapphire);
@@ -222,12 +222,12 @@
     --color-accent: var(--mocha-mauve);
     --color-code-bg: var(--mocha-mantle);
 
-    --color-badge-live: var(--mocha-sky);
-    --color-badge-source: var(--mocha-mauve);
+    --color-badge-live    : var(--mocha-sky);
+    --color-badge-source  : var(--mocha-mauve);
     --color-badge-download: var(--mocha-teal);
-    --color-badge-ai-none: var(--mocha-green);
-    --color-badge-ai-some: var(--mocha-yellow);
-    --color-badge-ai-used: var(--mocha-peach);
+    --color-badge-ai-none : var(--mocha-green);
+    --color-badge-ai-minor: var(--mocha-yellow);
+    --color-badge-ai-major: var(--mocha-red);
     --color-action-copy: var(--mocha-pink);
 
     --color-nav-1: var(--mocha-sapphire);

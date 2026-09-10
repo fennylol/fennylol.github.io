@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { externalAttrs } from '../lib/links';
+import Badge from './Badge.astro';
+import GenAIBadge from './GenAIBadge.astro';
 
 /**
  * The row of labelled badges shown for a project: its links (live, source,
@@ -36,12 +38,6 @@ const downloadHref =
 const forcesDownload =
   downloads.length === 1 && downloads[0].href.startsWith('/');
 
-const genaiLabel = {
-  none: 'No GenAI',
-  some: 'Some GenAI',
-  used: 'Used GenAI',
-} as const;
-
 ---
 
 {
@@ -50,30 +46,29 @@ const genaiLabel = {
        always renders. */
     <div class:list={['badges', { raised }]}>
       {data.link && (
-        <a class="badge" data-tone="live" href={data.link} {...externalAttrs(data.link)}>
+        <Badge tone="live" href={data.link} {...externalAttrs(data.link)}>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
             <polyline points="15 3 21 3 21 9" />
             <line x1="10" y1="14" x2="21" y2="3" />
           </svg>
           Live site
-        </a>
+        </Badge>
       )}
 
       {data.source && (
-        <a class="badge" data-tone="source" href={data.source} {...externalAttrs(data.source)}>
+        <Badge tone="source" href={data.source} {...externalAttrs(data.source)}>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <polyline points="16 18 22 12 16 6" />
             <polyline points="8 6 2 12 8 18" />
           </svg>
           Open source
-        </a>
+        </Badge>
       )}
 
       {downloads.length > 0 && (
-        <a
-          class="badge"
-          data-tone="download"
+        <Badge
+          tone="download"
           href={downloadHref}
           download={forcesDownload ? true : undefined}
           {...externalAttrs(downloadHref)}
@@ -84,17 +79,10 @@ const genaiLabel = {
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
           {downloads.length > 1 ? 'Downloads' : 'Download'}
-        </a>
+        </Badge>
       )}
 
-      <a class="badge" data-tone={`ai-${data.genai}`} href="/ai#what-the-badges-mean">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
-          {/* A slash through the sparkle for the "no GenAI" case. */}
-          {data.genai === 'none' && <line x1="4" y1="20" x2="20" y2="4" />}
-        </svg>
-        {genaiLabel[data.genai]}
-      </a>
+      <GenAIBadge level={data.genai} />
     </div>
   )
 }
@@ -107,49 +95,10 @@ const genaiLabel = {
     margin-top: var(--space-2xs);
   }
 
-  .badge {
-    --tone: var(--color-badge-live);
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3xs);
-    padding: 2px var(--space-2xs);
-    border: 1px solid color-mix(in oklab, var(--tone) 40%, transparent);
-    border-radius: var(--radius);
-    background: color-mix(in oklab, var(--tone) 12%, transparent);
-    /* Label stays body-coloured so it's legible whatever the hue does in
-       either theme; the icon carries the colour. */
-    color: var(--color-text);
-    font-size: var(--size-step--1);
-    line-height: 1.4;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .badge[data-tone="live"] { --tone: var(--color-badge-live); }
-  .badge[data-tone="source"] { --tone: var(--color-badge-source); }
-  .badge[data-tone="download"] { --tone: var(--color-badge-download); }
-  .badge[data-tone="ai-none"] { --tone: var(--color-badge-ai-none); }
-  .badge[data-tone="ai-some"] { --tone: var(--color-badge-ai-some); }
-  .badge[data-tone="ai-used"] { --tone: var(--color-badge-ai-used); }
-
-  a.badge:hover {
-    background: color-mix(in oklab, var(--tone) 22%, transparent);
-    border-color: color-mix(in oklab, var(--tone) 70%, transparent);
-  }
-
-  .badge svg {
-    width: 0.95rem;
-    height: 0.95rem;
-    fill: none;
-    stroke: var(--tone);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
   /* Inside a project card the stretched link covers everything; the real
-     links have to sit above it to stay clickable. */
-  .raised a.badge {
+     links have to sit above it to stay clickable. The badges are child
+     components, hence :global. */
+  .raised :global(a.badge) {
     position: relative;
     z-index: 2;
   }

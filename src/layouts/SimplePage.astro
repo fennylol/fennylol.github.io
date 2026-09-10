@@ -4,9 +4,10 @@ import FormattedDate from '../components/FormattedDate.astro';
 
 /**
  * Shared shell for simple, mostly-prose pages (/links, /ai) that are
- * written as plain Markdown files in src/pages/ with `layout:` frontmatter
- * pointing here. Astro nests a Markdown page's frontmatter under a single
- * `frontmatter` prop rather than flattening it onto Astro.props directly.
+ * written as Markdown (or MDX, when they need a component) in src/pages/
+ * with `layout:` frontmatter pointing here. Astro nests the page's
+ * frontmatter under a single `frontmatter` prop rather than flattening it
+ * onto Astro.props directly.
  */
 interface Frontmatter {
   title: string;

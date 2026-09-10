@@ -33,24 +33,25 @@ const { title, description, type, wide = false } = Astro.props;
         } catch (e) {}
       })();
     </script>
-    {/* --color-accent (mauve by default) gets re-rolled to one of the nav
-        hues on every full page load, never repeating the last one — this
+    {/* --color-accent (mauve by default) gets re-rolled to one of the
+        --color-accent-N hues on every full page load, never repeating the
+        last one — this
         is what recolors "fenny", the favorite-project star, focus rings,
         and every other accent-colored bit of the site together. Runs here,
         pre-paint, so none of that flashes the default color first. */}
     <script is:inline>
       (() => {
-        const NAV_COLOR_COUNT = 7;
+        const ACCENT_COLOR_COUNT = 7;
         const STORAGE_KEY = 'accent-color-index';
         try {
           let last = Number(sessionStorage.getItem(STORAGE_KEY)) || null;
-          const choices = Array.from({ length: NAV_COLOR_COUNT }, (_, i) => i + 1).filter(
+          const choices = Array.from({ length: ACCENT_COLOR_COUNT }, (_, i) => i + 1).filter(
             (n) => n !== last,
           );
           const n = choices[Math.floor(Math.random() * choices.length)];
           document.documentElement.style.setProperty(
             '--color-accent',
-            `var(--color-nav-${n})`,
+            `var(--color-accent-${n})`,
           );
           sessionStorage.setItem(STORAGE_KEY, String(n));
         } catch (e) {}
@@ -64,5 +65,32 @@ const { title, description, type, wide = false } = Astro.props;
       <slot />
     </main>
     <Footer />
+    {/* The favicon "f" takes this page's accent and background, so it
+        matches "fenny" in the nav. Down here rather than with the accent
+        script: an inline script at the end of <body> waits for the
+        stylesheets, so the custom properties resolve to real colors. Same
+        drawing as public/favicon.svg, which stays as the no-JS fallback. */}
+    <script is:inline>
+      (() => {
+        const link = document.querySelector('link[rel="icon"]');
+        const root = document.documentElement;
+        if (!link) return;
+        const paint = () => {
+          const css = getComputedStyle(root);
+          const bg = css.getPropertyValue('--color-bg').trim();
+          const fg = css.getPropertyValue('--color-accent').trim();
+          if (!bg || !fg) return;
+          const svg =
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">` +
+            `<rect width="32" height="32" rx="7" fill="${bg}"/>` +
+            `<path d="M15 25V11.5a4 4 0 0 1 4-4h2M11 14h9" fill="none" stroke="${fg}" ` +
+            `stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+          link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+        };
+        paint();
+        // The theme toggle flips data-theme; repaint so the tile follows.
+        new MutationObserver(paint).observe(root, { attributeFilter: ['data-theme'] });
+      })();
+    </script>
   </body>
 </html>

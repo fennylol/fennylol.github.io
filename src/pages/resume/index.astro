@@ -185,10 +185,10 @@ import { site } from '../../site.config';
       display: none;
     }
   }
-  /* Fixed nav hues, not --color-accent — these buttons keep their identity
+  /* Fixed --color-accent-N hues, not the re-rolled --color-accent — these buttons keep their identity
      across reloads instead of shifting with the rest of the site. */
-  .actions button[data-tone="pdf"] { --tone: var(--color-nav-3); } /* green */
-  .actions button[data-tone="edit"] { --tone: var(--color-nav-7); } /* mauve — was tied to --color-accent, now fixed at its old default */
-  .actions button[data-tone="full"] { --tone: var(--color-nav-5); } /* pink */
-  .actions button[data-tone="copy"] { --tone: var(--color-nav-1); } /* sapphire/blue */
+  .actions button[data-tone="pdf"] { --tone: var(--color-accent-3); } /* green */
+  .actions button[data-tone="edit"] { --tone: var(--color-accent-6); } /* mauve — was tied to --color-accent, now fixed at its old default */
+  .actions button[data-tone="full"] { --tone: var(--color-accent-7); } /* pink */
+  .actions button[data-tone="copy"] { --tone: var(--color-accent-1); } /* sapphire/blue */
 </style>

@@ -1,0 +1,61 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/**
+ * One labelled pill: a coloured icon plus a body-coloured label, tinted by
+ * `tone`. A link when given an href, plain text otherwise. Every badge on
+ * the site (project links, the GenAI disclosure, the examples on /ai)
+ * renders through this so they can't drift apart.
+ */
+type Props = HTMLAttributes<'a'> & {
+  tone: 'live' | 'source' | 'download' | 'ai-none' | 'ai-minor' | 'ai-major';
+};
+const { tone, href, ...attrs } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag class="badge" data-tone={tone} href={href} {...attrs}><slot /></Tag>
+
+<style>
+  .badge {
+    --tone: var(--color-badge-live);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    padding: 2px var(--space-2xs);
+    border: 1px solid color-mix(in oklab, var(--tone) 40%, transparent);
+    border-radius: var(--radius);
+    background: color-mix(in oklab, var(--tone) 12%, transparent);
+    /* Label stays body-coloured so it's legible whatever the hue does in
+       either theme; the icon carries the colour. */
+    color: var(--color-text);
+    font-size: var(--size-step--1);
+    line-height: 1.4;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .badge[data-tone="live"] { --tone: var(--color-badge-live); }
+  .badge[data-tone="source"] { --tone: var(--color-badge-source); }
+  .badge[data-tone="download"] { --tone: var(--color-badge-download); }
+  .badge[data-tone="ai-none"] { --tone: var(--color-badge-ai-none); }
+  .badge[data-tone="ai-minor"] { --tone: var(--color-badge-ai-minor); }
+  .badge[data-tone="ai-major"] { --tone: var(--color-badge-ai-major); }
+
+  a.badge:hover {
+    background: color-mix(in oklab, var(--tone) 22%, transparent);
+    border-color: color-mix(in oklab, var(--tone) 70%, transparent);
+  }
+
+  /* The icon arrives through the slot, so it carries the caller's scope,
+     not this component's. */
+  .badge :global(svg) {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: none;
+    stroke: var(--tone);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

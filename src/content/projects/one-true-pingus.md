@@ -3,7 +3,7 @@ title: One True Pingus
 summary: A custom module to facilitate multiplayer synchronization in Godot 4.x
 date: 2026-05-25
 tags: [Personal Project, Networking, GDScript, Godot, Open Source]
-genai: some
+genai: minor
 status: completed :3
 source: https://github.com/fennylol/multi-player-coupler
 favorite: true

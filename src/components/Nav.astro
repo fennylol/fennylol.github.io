@@ -88,14 +88,14 @@ const isCurrent = (href: string) =>
   }
   /* One catppuccin hue per tab, cycled by position. Only hover/current pull
      from --tone (above), so the ribbon stays muted at rest. Six tabs, so a
-     six-step cycle; pink (nav-5) is deliberately skipped here but stays in
-     the pool Base.astro rolls the site accent from. */
-  nav li:nth-child(6n + 1) a { --tone: var(--color-nav-1); }
-  nav li:nth-child(6n + 2) a { --tone: var(--color-nav-2); }
-  nav li:nth-child(6n + 3) a { --tone: var(--color-nav-3); }
-  nav li:nth-child(6n + 4) a { --tone: var(--color-nav-4); }
-  nav li:nth-child(6n + 5) a { --tone: var(--color-nav-6); }
-  nav li:nth-child(6n + 6) a { --tone: var(--color-nav-7); }
+     six-step cycle over accent-1..6. Pink (accent-7) is left out here but
+     stays in the pool Base.astro rolls the site accent from. */
+  nav li:nth-child(6n + 1) a { --tone: var(--color-accent-1); }
+  nav li:nth-child(6n + 2) a { --tone: var(--color-accent-2); }
+  nav li:nth-child(6n + 3) a { --tone: var(--color-accent-3); }
+  nav li:nth-child(6n + 4) a { --tone: var(--color-accent-4); }
+  nav li:nth-child(6n + 5) a { --tone: var(--color-accent-5); }
+  nav li:nth-child(6n + 6) a { --tone: var(--color-accent-6); }
 
   /* Rides the site's accent color, which Base.astro re-rolls to a random
      nav hue on every page load — so "fenny" changes color along with every

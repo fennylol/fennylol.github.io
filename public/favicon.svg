@@ -1,5 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#1b1b18" />
-  <text x="16" y="22" font-family="ui-sans-serif, system-ui, sans-serif"
-    font-size="18" font-weight="700" fill="#fdfdfc" text-anchor="middle">Y</text>
+  <!-- Static fallback: mauve "f", the accent's default, on the theme
+       background. On the live site the script at the end of Base.astro
+       replaces this with the page's re-rolled accent; keep the two
+       drawings in step. -->
+  <style>
+    rect { fill: #eff1f5; }
+    path { stroke: #8839ef; }
+    @media (prefers-color-scheme: dark) {
+      rect { fill: #1e1e2e; }
+      path { stroke: #cba6f7; }
+    }
+  </style>
+  <rect width="32" height="32" rx="7" />
+  <path d="M15 25V11.5a4 4 0 0 1 4-4h2M11 14h9" fill="none"
+    stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
 </svg>

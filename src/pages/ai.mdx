@@ -3,8 +3,10 @@ layout: ../layouts/SimplePage.astro
 title: AI Philosophy
 description: My stance on generative AI, and how I use it across this site and my projects.
 intro: My stance on generative AI, and how I use it across this site and my projects.
-updated: 2026-09-09
+updated: 2026-09-10
 ---
+
+import GenAIBadge from '../components/GenAIBadge.astro';
 
 In short: *I believe generative AI is a tool that produces a **product** faster by compressing or eliminating the **process**.*
 
@@ -54,6 +56,6 @@ There were over 600 commands. Redoing them by hand would have taken weeks, and n
 ## What the badges mean
 Every project on this site carries one of three labels. The label describes how the project was built and where along the gradation it lies.
 
-- **No GenAI.** Nothing in the project was generated. Design, code, art, and writing are all hand-made. Using an AI tool to look something up, the way I would use a search engine, does not change this label.
-- **Some GenAI.** The project is hand-made, with generative AI used for isolated tasks: drafting small artifacts, solving sub-problems, or interacting with specific protocols, standards or APIs. The project page will name what tasks involve AI.
-- **Used GenAI.** Generative AI did a substantial share of the implementation. I directed the work, reviewed it, and am responsible for it, but I did not write significant portions.
+- <GenAIBadge level="none" link={false} /> Nothing in the project was generated. Design, code, art, and writing are all hand-made. Using an AI tool to look something up, the way I would use a search engine, does not change this label.
+- <GenAIBadge level="minor" link={false} /> The project is hand-made, with generative AI used for isolated tasks: drafting small artifacts, solving sub-problems, or interacting with specific protocols, standards or APIs. The project page will name what tasks involve AI.
+- <GenAIBadge level="major" link={false} /> Generative AI did a substantial share of the implementation. I directed the work, reviewed it, and am responsible for it, but I did not write significant portions.

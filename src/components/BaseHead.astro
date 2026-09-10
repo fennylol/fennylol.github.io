@@ -35,3 +35,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 <link rel="sitemap" href="/sitemap-index.xml" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+{/* iOS home-screen icon: one fixed PNG (sapphire "f", dark tile), since iOS
+    copies it once and ignores theme variants. Same drawing as favicon.svg. */}
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />

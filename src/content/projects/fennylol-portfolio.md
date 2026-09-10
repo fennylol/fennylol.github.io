@@ -4,7 +4,7 @@ subtitle: you'd never believe me if i told you
 summary: A personal site for projects, write-ups, and a résumé, built with Astro, hosted on GitHub Pages, and mostly free of client-side JavaScript.
 date: 2026-09-01
 tags: [Personal Project, Astro, TypeScript, Open Source, Website]
-genai: used
+genai: major
 status: live :O
 link: /
 source: https://github.com/fennylol/fennylol
@@ -20,6 +20,6 @@ Content is treated as structured data rather than code. Projects, write-ups, and
 
 The résumé page extends that model a step further. Rather than maintaining separate exported versions, a single data source can be filtered down to a specific subset of entries, with the resulting selection encoded directly into the URL. Sharing a particular configuration requires no server or storage; the link is the configuration.
 
-The same content-as-data approach applies to disclosure: every project's generative-AI involvement is a required field, not an afterthought. This project is marked "Used GenAI". Specifics are on the [AI policy](/ai).
+The same content-as-data approach applies to disclosure: every project's generative-AI involvement is a required field, not an afterthought. This project is marked "Major GenAI". Specifics are on the [AI policy](/ai).
 
 Built with Astro 5 and TypeScript, and deployed to GitHub Pages via GitHub Actions. Development involved substantial use of Claude Code for architecture and implementation.

@@ -31,7 +31,7 @@ const projects = defineCollection({
      * state where it stands, and a missing value fails the build rather
      * than quietly going undisclosed.
      */
-    genai: z.enum(['none', 'some', 'used']),
+    genai: z.enum(['none', 'minor', 'major']),
     // Optional outbound links shown on the project.
     source: z.string().url().optional(), // source code
     // Live demo / site. Usually an absolute URL, but a root-relative path
