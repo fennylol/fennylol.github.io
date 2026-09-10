@@ -71,10 +71,9 @@ const posts = highlights(allPosts);
     max-width: 20ch;
   }
   .hero .eyebrow {
-    /* The name shouldn't wrap mid-word just because the tagline below it
-       is capped at 20ch. */
+    /* Not capped at 20ch like a normal hero heading, so it stays on one
+       line on desktop; it still wraps normally on phones. */
     max-width: none;
-    white-space: nowrap;
   }
   .intro {
     max-width: 55ch;
