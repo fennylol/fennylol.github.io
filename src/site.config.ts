@@ -7,7 +7,7 @@
 // TODO: set this to your real deployed URL.
 // - github.io user site:   https://<username>.github.io
 // - custom domain later:   https://yourdomain.com
-export const SITE_URL = 'https://github.com/fennylol';
+export const SITE_URL = 'https://fennylol.github.io';
 
 // The name, split into parts so Nav can style just the middle one — change
 // any of these three and every place the full name appears updates too.
@@ -25,7 +25,7 @@ export const site = {
   tagline: '',
   author: 'fennylol',
   url: SITE_URL,
-  // Used by the RSS feed and OG tags.
+  // Used by OG tags.
   description: `Projects, writing, and a pile of links, by ${fullName}.`,
   locale: 'en',
 };
@@ -35,7 +35,7 @@ export const nav: { label: string; href: string }[] = [
   { label: 'Home', href: '/' },
   { label: 'Projects', href: '/projects' },
   { label: 'Write-ups', href: '/blog' },
-  { label: 'AI', href: '/ai' },
+  { label: 'AI Policy', href: '/ai' },
   { label: 'Links', href: '/links' },
   { label: 'Résumé', href: '/resume' },
 ];

@@ -13,7 +13,7 @@ const projects = defineCollection({
     /**
      * Optional display-only second line, e.g. "(and the Tower He Intends to
      * Build)". Kept out of `title` on purpose: `title` feeds the page
-     * <title>, OG tags, RSS and the résumé, which all want the short form.
+     * <title>, OG tags and the résumé, which all want the short form.
      */
     subtitle: z.string().optional(),
     // One- or two-sentence blurb shown on the card and in listings.
@@ -68,8 +68,8 @@ const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
-    // One- or two-sentence blurb. Feeds the <meta description>, OG tags and
-    // RSS, and shows as the lede under the title on the post itself and in
+    // One- or two-sentence blurb. Feeds the <meta description> and OG tags,
+    // and shows as the lede under the title on the post itself and in
     // listings. (Posts have no separate subtitle — the summary does that job.)
     summary: z.string(),
     date: z.coerce.date(),

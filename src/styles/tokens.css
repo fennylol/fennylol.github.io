@@ -107,6 +107,9 @@
   /* ================= Semantic tokens (default: Latte) ================= */
   --color-bg: var(--latte-base);
   --color-surface: var(--latte-surface0);
+  /* Card backgrounds only. Lighter than --color-surface in Latte so the
+     project/post cards don\'t sit as heavy grey slabs on the page. */
+  --color-card: var(--latte-crust);
   /* Brightness ramp, brightest to dimmest:
      --color-text > --color-subtle > --color-muted > --color-faint */
   --color-text: var(--latte-text);
@@ -162,6 +165,7 @@
 :root[data-theme="dark"] {
   --color-bg: var(--mocha-base);
   --color-surface: var(--mocha-surface0);
+  --color-card: var(--mocha-surface0);
   --color-text: var(--mocha-text);
   --color-subtle: var(--mocha-subtext1);
   --color-muted: var(--mocha-subtext0);
@@ -207,6 +211,7 @@
   :root:not([data-theme="light"]) {
     --color-bg: var(--mocha-base);
     --color-surface: var(--mocha-surface0);
+    --color-card: var(--mocha-surface0);
     --color-text: var(--mocha-text);
     --color-subtle: var(--mocha-subtext1);
     --color-muted: var(--mocha-subtext0);
