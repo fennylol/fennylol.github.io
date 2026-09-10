@@ -3,7 +3,7 @@ title: On Game Jams
 summary: Lessons we learned from making a lot of poorly recieved games.
 date: 2026-09-01
 tags: []
-draft: true
+hidden: true
 ---
 
 ## Why Make Games?

@@ -4,7 +4,6 @@ summary: The reason and reasoning behind implementing custom multiplayer net-cod
 date: 2026-09-01
 tags: []
 favorite: true
-draft: false
 ---
 
 In his GDC talk [I Shot You First: Networking the Gameplay of Halo: Reach](https://youtu.be/h47zZrqjgLc), David Aldridge describes multiplayer networking as: "*Technology to help multiple players sustain the belief that they are playing a fun game together.*"

@@ -56,9 +56,13 @@ const projects = defineCollection({
       .default([]),
     // Pin to the top of listings / show on the homepage.
     favorite: z.boolean().default(false),
-    // Hide from the built site without deleting the file.
+    // Drop from production builds without deleting the file. Still shows
+    // in `astro dev` so it can be previewed.
     hidden: z.boolean().default(false),
-  }),
+  })
+    // Unknown keys fail the build, so a misspelt flag can't silently do
+    // nothing (this happened: files said `draft:`, the flag is `hidden:`).
+    .strict(),
 });
 
 /**
@@ -78,7 +82,7 @@ const blog = defineCollection({
     // Pin to the top of the write-ups list / show on the homepage.
     favorite: z.boolean().default(false),
     hidden: z.boolean().default(false),
-  }),
+  }).strict(),
 });
 
 export const collections = { projects, blog };

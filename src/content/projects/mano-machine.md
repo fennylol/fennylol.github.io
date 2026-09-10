@@ -6,7 +6,7 @@ tags: [Academic Project, Logic Simulation]
 genai: none
 status: completed :3
 favorite: false
-draft: true
+hidden: true
 ---
 
 The [Mano Machine](https://en.wikipedia.org/wiki/Mano_machine) is a 16-bit general-purpose CPU designed and described by M. Morris Mano.

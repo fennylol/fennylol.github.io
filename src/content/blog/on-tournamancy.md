@@ -3,7 +3,7 @@ title: On Tournamancy
 summary: The white whale we're still hunting
 date: 2026-09-07
 tags: []
-draft: true
+hidden: true
 ---
 
 # Still under construction. You shouldn't be here lol
