@@ -125,27 +125,28 @@
   /* Badge hues. Cool tones for the link badges, traffic-light tones for the
      GenAI disclosure. Badges tint these for their background/border and use
      them for the icon; the label stays --color-text so it's always legible. */
-  --color-badge-live    : var(--latte-sky);
+  --color-badge-live    : var(--latte-blue);
   --color-badge-source  : var(--latte-mauve);
-  --color-badge-download: var(--latte-teal);
-  --color-badge-ai-none : var(--latte-green);
-  --color-badge-ai-minor: var(--latte-yellow);
-  --color-badge-ai-major: var(--latte-red);
+  --color-badge-download: var(--latte-peach);
+  --color-badge-ai-none : var(--latte-teal);
+  --color-badge-ai-minor: var(--latte-green);
+  --color-badge-ai-major: var(--latte-yellow);
   /* No existing badge hue fits "copy/share" without borrowing GenAI's
      meaning, so this one's a dedicated tone. */
   --color-action-copy: var(--latte-pink);
 
-  /* One hue per nav tab, cycled by position — text only takes the color on
-     hover/current, so at rest the ribbon stays --color-muted like before.
-     Ordered by hue angle so the ribbon reads as a left-to-right sweep
-     rather than jumping around the color wheel. */
+  /* The accent palette. Base.astro re-rolls --color-accent to one of all
+     seven on every page load; the nav tabs and the résumé buttons each pin
+     one by number instead. The six nav tabs take 1–6 in order, a sweep
+     around the color wheel. Pink sits last because the nav doesn't use it;
+     it's only in the random pool and on the "Full résumé" button. */
   --color-accent-1: var(--latte-sapphire);
   --color-accent-2: var(--latte-teal);
   --color-accent-3: var(--latte-green);
   --color-accent-4: var(--latte-yellow);
-  --color-accent-5: var(--latte-pink);
-  --color-accent-6: var(--latte-red);
-  --color-accent-7: var(--latte-mauve);
+  --color-accent-5: var(--latte-red);
+  --color-accent-6: var(--latte-mauve);
+  --color-accent-7: var(--latte-pink);
 
   /* Comfort-meter dot colors, keyed by rank (1 = Familiar .. 5 = Expert) —
      every filled dot in a meter shares its skill's rank color. Purple to
@@ -176,21 +177,21 @@
   --color-accent: var(--mocha-mauve);
   --color-code-bg: var(--mocha-mantle);
 
-  --color-badge-live    : var(--mocha-sky);
+  --color-badge-live    : var(--mocha-blue);
   --color-badge-source  : var(--mocha-mauve);
-  --color-badge-download: var(--mocha-teal);
-  --color-badge-ai-none : var(--mocha-green);
-  --color-badge-ai-minor: var(--mocha-yellow);
-  --color-badge-ai-major: var(--mocha-red);
+  --color-badge-download: var(--mocha-peach);
+  --color-badge-ai-none : var(--mocha-teal);
+  --color-badge-ai-minor: var(--mocha-green);
+  --color-badge-ai-major: var(--mocha-yellow);
   --color-action-copy: var(--mocha-pink);
 
   --color-accent-1: var(--mocha-sapphire);
   --color-accent-2: var(--mocha-teal);
   --color-accent-3: var(--mocha-green);
   --color-accent-4: var(--mocha-yellow);
-  --color-accent-5: var(--mocha-pink);
-  --color-accent-6: var(--mocha-red);
-  --color-accent-7: var(--mocha-mauve);
+  --color-accent-5: var(--mocha-red);
+  --color-accent-6: var(--mocha-mauve);
+  --color-accent-7: var(--mocha-pink);
 
   --color-dot-1: var(--mocha-red);
   --color-dot-2: var(--mocha-yellow);
@@ -222,21 +223,21 @@
     --color-accent: var(--mocha-mauve);
     --color-code-bg: var(--mocha-mantle);
 
-    --color-badge-live    : var(--mocha-sky);
+    --color-badge-live    : var(--mocha-blue);
     --color-badge-source  : var(--mocha-mauve);
-    --color-badge-download: var(--mocha-teal);
-    --color-badge-ai-none : var(--mocha-green);
-    --color-badge-ai-minor: var(--mocha-yellow);
-    --color-badge-ai-major: var(--mocha-red);
+    --color-badge-download: var(--mocha-peach);
+    --color-badge-ai-none : var(--mocha-teal);
+    --color-badge-ai-minor: var(--mocha-green);
+    --color-badge-ai-major: var(--mocha-yellow);
     --color-action-copy: var(--mocha-pink);
 
     --color-accent-1: var(--mocha-sapphire);
     --color-accent-2: var(--mocha-teal);
     --color-accent-3: var(--mocha-green);
     --color-accent-4: var(--mocha-yellow);
-    --color-accent-5: var(--mocha-pink);
-    --color-accent-6: var(--mocha-red);
-    --color-accent-7: var(--mocha-mauve);
+    --color-accent-5: var(--mocha-red);
+    --color-accent-6: var(--mocha-mauve);
+    --color-accent-7: var(--mocha-pink);
 
     --color-dot-1: var(--mocha-red);
     --color-dot-2: var(--mocha-yellow);

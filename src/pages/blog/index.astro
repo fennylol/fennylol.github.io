@@ -12,20 +12,21 @@ posts.sort((a, b) => Number(b.data.favorite) - Number(a.data.favorite));
   <header class="stack-s page-head">
     <h1>Write-ups</h1>
     <p class="muted">
-      Notes, write-ups, and thinking out loud.
+      The "Why" and "How" behind projects.
     </p>
 
-    {/* The same claim the project badges make, in the same visual language. */}
-    <p class="ai-note">
+    {/* The same claim the project badges make, in the same visual language,
+        and like them it links to the policy that defines it. */}
+    <a class="ai-note" href="/ai">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
+        <path d="M12 5l1.9 5.1L19 12l-5.1 1.9L12 19l-1.9-5.1L5 12l5.1-1.9z" />
         <line x1="4" y1="20" x2="20" y2="4" />
       </svg>
       <span>
-        Everything here is written by me, without generative AI — so please
+        Everything here is written by me, without generative AI. Please
         forgive any grammatical errors.
       </span>
-    </p>
+    </a>
   </header>
 
   {
@@ -49,7 +50,7 @@ posts.sort((a, b) => Number(b.data.favorite) - Number(a.data.favorite));
     margin-bottom: var(--space-l);
   }
 
-  /* Borrows the "No GenAI" badge's tone so the blog-wide claim and the
+  /* Borrows the "No AI Use" badge's tone so the blog-wide claim and the
      per-project ones read as the same statement. */
   .ai-note {
     --tone: var(--color-badge-ai-none);
@@ -61,6 +62,13 @@ posts.sort((a, b) => Number(b.data.favorite) - Number(a.data.favorite));
     border-radius: var(--radius);
     background: color-mix(in oklab, var(--tone) 12%, transparent);
     font-size: var(--size-step--1);
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  /* Same hover as the badges it's modelled on. */
+  .ai-note:hover {
+    background: color-mix(in oklab, var(--tone) 22%, transparent);
+    border-color: color-mix(in oklab, var(--tone) 70%, transparent);
     color: var(--color-muted);
   }
   .ai-note svg {

@@ -13,17 +13,17 @@ interface Props {
 const { level, link = true } = Astro.props;
 
 const label = {
-  none: 'No GenAI',
-  minor: 'Minor GenAI',
-  major: 'Major GenAI',
+  none : 'No AI Use',
+  minor: 'Minor AI Use',
+  major: 'Major AI Use',
 } as const;
 const tone = `ai-${level}` as const;
 ---
 
 <Badge tone={tone} href={link ? '/ai#what-the-badges-mean' : undefined}>
   <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
-    {/* A slash through the sparkle for the "no GenAI" case. */}
+    <path d="M12 5l1.9 5.1L19 12l-5.1 1.9L12 19l-1.9-5.1L5 12l5.1-1.9z" />
+    {/* A slash through the sparkle for the "No AI Use" case. */}
     {level === 'none' && <line x1="4" y1="20" x2="20" y2="4" />}
   </svg>
   {label[level]}

@@ -14,7 +14,9 @@ const tags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
 <Base title="Projects" description="Things I've built." wide>
   <header class="stack-s page-head">
     <h1>Projects</h1>
-    <p class="muted">Things I've built, in rough reverse-chronological order.</p>
+    <p class="muted">
+      Things I've built and think are worth sharing.
+    </p>
     <TagList tags={tags} label="Tags:" interactive />
   </header>
 
